@@ -22,7 +22,11 @@ LC_TELEPHONE=zh_CN.UTF-8
 LC_MEASUREMENT=zh_CN.UTF-8
 LC_IDENTIFICATION=zh_CN.UTF-8
 EOF
-cp -f /etc/default/locale /etc/locale.conf
+# Debian 13 中 /etc/locale.conf 已是指向 /etc/default/locale 的符号链接，
+# 直接 cp 会因源与目标相同而报错并中断构建
+if [ ! -e /etc/locale.conf ]; then
+    cp -f /etc/default/locale /etc/locale.conf
+fi
 
 # 时区
 ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
