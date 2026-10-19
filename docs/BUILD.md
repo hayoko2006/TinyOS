@@ -188,20 +188,23 @@ tinyos-wine info           # 查看兼容层状态
 ### 4.4 软件源配置（需求 4）
 
 - 默认源：**中科大 USTC**（`0500-branding.hook.chroot` 写入 `/etc/apt/sources.list`）。
-- 备用源以注释形式内置：**清华 TUNA / 阿里云 / 华为云 / 腾讯云 / 网易**，取消注释即可切换。
+- 备用源以注释形式内置：国内 **清华 TUNA / 阿里云 / 华为云 / 腾讯云 / 网易 / 上交**，国际 **Debian 官方 CDN / Kernel.org（北美）/ Hetzner（欧洲）/ JAIST（日本）/ AARNet（澳洲）**，取消注释即可切换。
+- 国际节点的 security 更新统一走官方 `security.debian.org`；海外用户可直接选用官方 CDN。
 - Backports 源用于 Waydroid。
 - 自动优选工具 `tinyos-mirror`（Python3）：
   - 并发探测各镜像 `dists/trixie/Release` 的响应延迟；
-  - 排序输出并采用最低延迟节点；
+  - 按“国内 / 国际”分组输出，并采用全量节点中延迟最低者；
+  - 路径失效或未同步的节点会被判定为不可用，不会写入源列表；
   - 自动备份原配置为 `/etc/apt/sources.list.tinyos-bak`；
   - 支持 `--auto` / `--list` / `--set <name>` / `--quiet`。
-- 首次开机由 `tinyos-firstboot.service` 自动执行 `tinyos-mirror --auto` 并刷新索引。
+- 首次开机由 `tinyos-firstboot.service` 自动执行 `tinyos-mirror --auto` 并刷新索引；海外环境会自动落到官方 CDN 或就近的大洲节点。
 
 ```bash
-sudo tinyos-mirror            # 交互式：列出延迟并确认切换
-sudo tinyos-mirror --auto     # 非交互自动优选
-sudo tinyos-mirror --list     # 仅测速
-sudo tinyos-mirror --set tuna # 指定清华源
+sudo tinyos-mirror              # 交互式：列出延迟并确认切换
+sudo tinyos-mirror --auto       # 非交互自动优选
+sudo tinyos-mirror --list       # 仅测速
+sudo tinyos-mirror --set tuna   # 指定清华源
+sudo tinyos-mirror --set debian # 指定 Debian 官方 CDN（海外）
 ```
 
 ## 5. 交付物与验证

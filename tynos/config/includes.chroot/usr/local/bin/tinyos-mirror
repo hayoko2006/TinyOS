@@ -3,7 +3,8 @@
 """
 TinyOS 软件源优选工具
 
-自动测试国内主流开源镜像站的连接延迟，选择最快的节点写入 /etc/apt/sources.list
+并发测试国内与海外主流 Debian 镜像站的连接延迟，选择最快的节点写入 /etc/apt/sources.list。
+海外用户首次开机时会自动落到官方 CDN 或就近的大洲节点，不会被困在国内源上。
 
 用法:
     tinyos-mirror                 交互式选择（列出延迟并自动采用最优）
@@ -16,67 +17,102 @@ import argparse
 import concurrent.futures
 import http.client
 import os
-import re
 import shutil
 import ssl
-import subprocess
 import sys
 import time
+from urllib.parse import urlsplit
 
 TRIXIE = "trixie"
 
-# 名称 -> (主机, 路径前缀, 是否支持 https)
+# 官方 security 归档：各镜像站的 debian-security 路径不统一（部分站点根本不同步），
+# 国际源统一走官方 security.debian.org（anycast CDN，全球就近）。
+SECURITY_OFFICIAL = "https://security.debian.org/debian-security/"
+
+# 名称 -> {base: debian 主源, security: 安全更新源, label: 显示名, region: cn=国内 / intl=国际}
+# base 与 security 均为完整 URL，写入 sources.list 前不做任何路径推导。
 MIRRORS = {
-    "ustc":    ("mirrors.ustc.edu.cn",           "",        True),
-    "tuna":    ("mirrors.tuna.tsinghua.edu.cn",  "",        True),
-    "aliyun":  ("mirrors.aliyun.com",            "debian",  True),
-    "huawei":  ("mirrors.huaweicloud.com",       "debian",  True),
-    "tencent": ("mirrors.cloud.tencent.com",     "debian",  True),
-    "163":     ("mirrors.163.com",               "debian",  False),
-    "sjtu":    ("mirror.sjtu.edu.cn",            "debian",  True),
+    # ---- 国内 ----
+    "ustc": {
+        "base": "https://mirrors.ustc.edu.cn/debian/",
+        "security": "https://mirrors.ustc.edu.cn/debian-security/",
+        "label": "中国科学技术大学 (USTC)", "region": "cn"},
+    "tuna": {
+        "base": "https://mirrors.tuna.tsinghua.edu.cn/debian/",
+        "security": "https://mirrors.tuna.tsinghua.edu.cn/debian-security/",
+        "label": "清华大学 (TUNA)", "region": "cn"},
+    "aliyun": {
+        "base": "https://mirrors.aliyun.com/debian/",
+        "security": "https://mirrors.aliyun.com/debian-security/",
+        "label": "阿里云", "region": "cn"},
+    "huawei": {
+        "base": "https://mirrors.huaweicloud.com/debian/",
+        "security": "https://mirrors.huaweicloud.com/debian-security/",
+        "label": "华为云", "region": "cn"},
+    "tencent": {
+        "base": "https://mirrors.cloud.tencent.com/debian/",
+        "security": "https://mirrors.cloud.tencent.com/debian-security/",
+        "label": "腾讯云", "region": "cn"},
+    "163": {
+        "base": "https://mirrors.163.com/debian/",
+        "security": "https://mirrors.163.com/debian-security/",
+        "label": "网易", "region": "cn"},
+    "sjtu": {
+        "base": "https://mirror.sjtu.edu.cn/debian/",
+        "security": "https://mirror.sjtu.edu.cn/debian-security/",
+        "label": "上海交通大学", "region": "cn"},
+    # ---- 国际 / 官方 ----
+    "debian": {
+        "base": "https://deb.debian.org/debian/",
+        "security": SECURITY_OFFICIAL,
+        "label": "Debian 官方 (全球 CDN)", "region": "intl"},
+    "kernel": {
+        "base": "https://mirrors.kernel.org/debian/",
+        "security": SECURITY_OFFICIAL,
+        "label": "Kernel.org (北美)", "region": "intl"},
+    "hetzner": {
+        "base": "https://mirror.hetzner.com/debian/",
+        "security": SECURITY_OFFICIAL,
+        "label": "Hetzner (欧洲)", "region": "intl"},
+    "jaist": {
+        "base": "https://ftp.jaist.ac.jp/pub/Linux/debian/",
+        "security": SECURITY_OFFICIAL,
+        "label": "JAIST (日本)", "region": "intl"},
+    "aarnet": {
+        "base": "https://mirror.aarnet.edu.au/debian/",
+        "security": SECURITY_OFFICIAL,
+        "label": "AARNet (澳洲)", "region": "intl"},
 }
 
-LABELS = {
-    "ustc": "中国科学技术大学 (USTC)",
-    "tuna": "清华大学 (TUNA)",
-    "aliyun": "阿里云",
-    "huawei": "华为云",
-    "tencent": "腾讯云",
-    "163": "网易",
-    "sjtu": "上海交通大学",
-}
+REGIONS = ("cn", "intl")
+REGION_LABELS = {"cn": "国内镜像", "intl": "国际镜像"}
 
 SOURCES_PATH = "/etc/apt/sources.list"
 TEST_TIMEOUT = 6
 
 
-def deb_url(name, https=True):
-    """返回该镜像的 debian 根 URL"""
-    host, prefix, supports_https = MIRRORS[name]
-    scheme = "https" if (https and supports_https) else "http"
-    path = f"/{prefix}/debian/" if prefix else "/debian/"
-    return f"{scheme}://{host}{path}"
-
-
 def probe(name):
-    """测量镜像延迟（秒），失败返回 None"""
-    url = deb_url(name)
-    m = re.match(r"(https?)://([^/]+)(/.*)", url)
-    scheme, host, path = m.group(1), m.group(2), m.group(3)
-    release = path.rstrip("/") + f"/dists/{TRIXIE}/Release"
+    """测量镜像延迟（毫秒），不可达返回 None
+
+    探测 dists/trixie/Release：该文件必然存在于正常同步的镜像，
+    路径失效或未同步的站点会在这里被判为不可用，不会被写入源列表。
+    """
+    base = MIRRORS[name]["base"]
+    parts = urlsplit(base)
+    target = base.rstrip("/") + f"/dists/{TRIXIE}/Release"
     start = time.time()
     try:
-        ctx = ssl.create_default_context()
-        if scheme == "https":
-            conn = http.client.HTTPSConnection(host, timeout=TEST_TIMEOUT, context=ctx)
+        if parts.scheme == "https":
+            conn = http.client.HTTPSConnection(
+                parts.hostname, timeout=TEST_TIMEOUT, context=ssl.create_default_context())
         else:
-            conn = http.client.HTTPConnection(host, timeout=TEST_TIMEOUT)
-        conn.request("HEAD", release)
+            conn = http.client.HTTPConnection(parts.hostname, timeout=TEST_TIMEOUT)
+        conn.request("HEAD", target)
         resp = conn.getresponse()
         conn.close()
         if resp.status >= 400:
             return None
-        return round(time.time() - start, 3) * 1000  # 毫秒
+        return round(time.time() - start, 3) * 1000
     except Exception:
         return None
 
@@ -94,27 +130,41 @@ def measure_all():
     return results
 
 
-def write_sources(name, quiet=False):
-    base = deb_url(name)
-    security = f"{base.rstrip('/')}/../debian-security/"
-    if MIRRORS[name][1]:  # 带路径前缀的镜像，security 也在根下
-        security = f"{base.split('/debian/')[0]}/debian-security/"
-    lines = [
-        f"# TinyOS 软件源 —— 由 tinyos-mirror 自动生成",
-        f"# 当前使用: {LABELS[name]}",
-        f"",
-        f"deb {base} {TRIXIE} main contrib non-free non-free-firmware",
-        f"deb {base} {TRIXIE}-updates main contrib non-free non-free-firmware",
-        f"deb {security} {TRIXIE}-security main contrib non-free non-free-firmware",
-        f"deb {base} {TRIXIE}-backports main contrib non-free",
-        f"",
-        "# ---- 其他可选镜像（取消注释并注释上方即可切换）----",
+def mirror_lines(mirror, comment=False):
+    """展开一个镜像的 4 条 deb 行（main / updates / security / backports）"""
+    prefix = "# " if comment else ""
+    base, sec = mirror["base"], mirror["security"]
+    return [
+        f"{prefix}deb {base} {TRIXIE} main contrib non-free non-free-firmware",
+        f"{prefix}deb {base} {TRIXIE}-updates main contrib non-free non-free-firmware",
+        f"{prefix}deb {sec} {TRIXIE}-security main contrib non-free non-free-firmware",
+        f"{prefix}deb {base} {TRIXIE}-backports main contrib non-free",
     ]
-    for other in MIRRORS:
-        if other == name:
+
+
+def write_sources(name, quiet=False):
+    current = MIRRORS[name]
+    lines = [
+        "# TinyOS 软件源 —— 由 tinyos-mirror 自动生成",
+        f"# 当前使用: {current['label']}",
+        "",
+    ]
+    lines += mirror_lines(current)
+    lines += [
+        "",
+        "# ---- 其他可选镜像（注释当前源、取消注释目标源即可切换）----",
+        "# 也可重新运行 sudo tinyos-mirror 自动测速优选。",
+    ]
+    for region in REGIONS:
+        others = [(n, m) for n, m in MIRRORS.items()
+                  if m["region"] == region and n != name]
+        if not others:
             continue
-        ob = deb_url(other)
-        lines.append(f"# deb {ob} {TRIXIE} main contrib non-free non-free-firmware")
+        lines.append("")
+        lines.append(f"# == {REGION_LABELS[region]} ==")
+        for _, m in others:
+            lines.append(f"# {m['label']}")
+            lines += mirror_lines(m, comment=True)
     lines.append("")
 
     content = "\n".join(lines)
@@ -126,8 +176,31 @@ def write_sources(name, quiet=False):
     with open(SOURCES_PATH, "w", encoding="utf-8") as fh:
         fh.write(content)
     if not quiet:
-        print(f"[TinyOS] 已切换软件源: {LABELS[name]}")
+        print(f"[TinyOS] 已切换软件源: {current['label']}")
         print(f"[TinyOS] 原配置已备份至 {SOURCES_PATH}.tinyos-bak")
+
+
+def report(results, quiet=False):
+    """按国内/国际分组打印延迟，返回按延迟排序的可用节点列表"""
+    ranked = sorted(
+        ((n, v) for n, v in results.items() if v is not None),
+        key=lambda kv: kv[1],
+    )
+    if quiet:
+        return ranked
+    best = ranked[0][0] if ranked else ""
+    for region in REGIONS:
+        group = [(n, v) for n, v in ranked if MIRRORS[n]["region"] == region]
+        if not group:
+            continue
+        print(f"\n  [{REGION_LABELS[region]}]")
+        for n, v in group:
+            mark = " *" if n == best else ""
+            print(f"    {MIRRORS[n]['label']:<26} {v:7.0f} ms{mark}")
+    failed = [n for n, v in results.items() if v is None]
+    if failed:
+        print(f"\n  不可用: {', '.join(MIRRORS[n]['label'] for n in failed)}")
+    return ranked
 
 
 def main():
@@ -140,26 +213,14 @@ def main():
 
     if args.set:
         if args.set not in MIRRORS:
-            print(f"未知镜像: {args.set}", file=sys.stderr)
+            print(f"未知镜像: {args.set}（可选: {', '.join(MIRRORS)}）", file=sys.stderr)
             sys.exit(1)
         write_sources(args.set, args.quiet)
         return
 
     if not args.quiet:
-        print("[TinyOS] 正在测试国内镜像站延迟...")
-    results = measure_all()
-
-    ranked = sorted(
-        ((n, v) for n, v in results.items() if v is not None),
-        key=lambda kv: kv[1],
-    )
-    if not args.quiet:
-        for n, v in ranked:
-            mark = " *" if n == (ranked[0][0] if ranked else "") else ""
-            print(f"  {LABELS[n]:<26} {v:7.0f} ms{mark}")
-        failed = [n for n, v in results.items() if v is None]
-        if failed:
-            print(f"  不可用: {', '.join(LABELS[f] for f in failed)}")
+        print("[TinyOS] 正在测试镜像站延迟（国内 + 国际）...")
+    ranked = report(measure_all(), args.quiet)
 
     if not ranked:
         print("[TinyOS] 所有镜像均不可达，保留现有配置", file=sys.stderr)
@@ -169,14 +230,14 @@ def main():
     if args.auto:
         write_sources(best, args.quiet)
         if not args.quiet:
-            print(f"[TinyOS] 已自动采用最优节点: {LABELS[best]} ({ranked[0][1]:.0f} ms)")
+            print(f"[TinyOS] 已自动采用最优节点: {MIRRORS[best]['label']} ({ranked[0][1]:.0f} ms)")
         return
 
     if args.list:
         return
 
     # 交互
-    choice = input(f"\n采用最优节点 {LABELS[best]}? [Y/n] ").strip().lower()
+    choice = input(f"\n采用最优节点 {MIRRORS[best]['label']}? [Y/n] ").strip().lower()
     if choice in ("", "y", "yes"):
         write_sources(best)
     else:

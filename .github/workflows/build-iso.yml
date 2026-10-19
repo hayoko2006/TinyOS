@@ -61,6 +61,9 @@ jobs:
             -e TINYOS_EDITION="$EDITION" \
             -e TINYOS_OUT_DIR=/work/out \
             -e TINYOS_MIN_FREE_MB=18000 \
+            -e TINYOS_MIRROR_CHROOT=https://deb.debian.org/debian/ \
+            -e TINYOS_MIRROR_BINARY=https://deb.debian.org/debian/ \
+            -e TINYOS_MIRROR_SECURITY=https://security.debian.org/debian-security/ \
             debian:13 bash -lc './build.sh'
 
       - name: 失败时输出构建日志

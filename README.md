@@ -11,7 +11,7 @@
 | 启动引导 | GRUB（BIOS + UEFI 双启动，TinyOS 品牌主题） |
 | Windows 兼容 | Wine + winetricks + Gamemode（可选 DXVK → Vulkan 硬件加速） |
 | 安卓兼容 | Waydroid（trixie-backports 官方包，预置 VANILLA 安卓镜像） |
-| 软件源 | 中科大 USTC 默认，内置清华/阿里/华为等 + 延迟自动优选工具 |
+| 软件源 | 中科大 USTC 默认；内置清华/阿里等国内源 + 官方 CDN、北美/欧洲/日本/澳洲节点，延迟自动优选（国内外均可用） |
 | 输入法 | fcitx5 + 中文词库（预配置环境变量与自启动） |
 | 镜像格式 | iso-hybrid（可 dd 写 U 盘，UEFI + Legacy BIOS 双启动） |
 

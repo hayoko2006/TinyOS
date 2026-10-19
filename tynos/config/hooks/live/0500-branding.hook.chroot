@@ -28,23 +28,68 @@ EOF
 rm -f /etc/os-release
 ln -s ../usr/lib/os-release /etc/os-release
 
-echo "[TinyOS] 配置国内镜像源（中科大默认 / 清华等备用）"
+echo "[TinyOS] 配置软件源（默认中科大；备用含国内与官方/国际节点）"
 cat > /etc/apt/sources.list <<'EOF'
 # TinyOS 默认软件源 —— 中国科学技术大学 (USTC)
 deb https://mirrors.ustc.edu.cn/debian/ trixie main contrib non-free non-free-firmware
 deb https://mirrors.ustc.edu.cn/debian/ trixie-updates main contrib non-free non-free-firmware
 deb https://mirrors.ustc.edu.cn/debian-security/ trixie-security main contrib non-free non-free-firmware
+deb https://mirrors.ustc.edu.cn/debian/ trixie-backports main contrib non-free
 
-# 备用：清华大学 TUNA
+# 切换方法：运行 sudo tinyos-mirror 自动测速优选，
+# 或注释上方四行、取消注释下方任一镜像的对应四行。
+# 海外用户建议直接使用 Debian 官方 CDN。
+
+# == 国内镜像 ==
+# 清华大学 TUNA
 # deb https://mirrors.tuna.tsinghua.edu.cn/debian/ trixie main contrib non-free non-free-firmware
 # deb https://mirrors.tuna.tsinghua.edu.cn/debian/ trixie-updates main contrib non-free non-free-firmware
 # deb https://mirrors.tuna.tsinghua.edu.cn/debian-security/ trixie-security main contrib non-free non-free-firmware
-
-# 备用：阿里云
+# deb https://mirrors.tuna.tsinghua.edu.cn/debian/ trixie-backports main contrib non-free
+# 阿里云
 # deb https://mirrors.aliyun.com/debian/ trixie main contrib non-free non-free-firmware
+# deb https://mirrors.aliyun.com/debian/ trixie-updates main contrib non-free non-free-firmware
+# deb https://mirrors.aliyun.com/debian-security/ trixie-security main contrib non-free non-free-firmware
+# deb https://mirrors.aliyun.com/debian/ trixie-backports main contrib non-free
+# 腾讯云
+# deb https://mirrors.cloud.tencent.com/debian/ trixie main contrib non-free non-free-firmware
+# deb https://mirrors.cloud.tencent.com/debian/ trixie-updates main contrib non-free non-free-firmware
+# deb https://mirrors.cloud.tencent.com/debian-security/ trixie-security main contrib non-free non-free-firmware
+# 华为云
+# deb https://mirrors.huaweicloud.com/debian/ trixie main contrib non-free non-free-firmware
+# deb https://mirrors.huaweicloud.com/debian/ trixie-updates main contrib non-free non-free-firmware
+# deb https://mirrors.huaweicloud.com/debian-security/ trixie-security main contrib non-free non-free-firmware
+# 上海交通大学
+# deb https://mirror.sjtu.edu.cn/debian/ trixie main contrib non-free non-free-firmware
+# deb https://mirror.sjtu.edu.cn/debian/ trixie-updates main contrib non-free non-free-firmware
+# deb https://mirror.sjtu.edu.cn/debian-security/ trixie-security main contrib non-free non-free-firmware
+# 网易
+# deb https://mirrors.163.com/debian/ trixie main contrib non-free non-free-firmware
+# deb https://mirrors.163.com/debian/ trixie-updates main contrib non-free non-free-firmware
+# deb https://mirrors.163.com/debian-security/ trixie-security main contrib non-free non-free-firmware
 
-# Backports（Waydroid 安卓兼容层来源）
-deb https://mirrors.ustc.edu.cn/debian/ trixie-backports main contrib non-free
+# == 国际镜像 ==
+# Debian 官方 (全球 CDN，海外推荐)
+# deb https://deb.debian.org/debian/ trixie main contrib non-free non-free-firmware
+# deb https://deb.debian.org/debian/ trixie-updates main contrib non-free non-free-firmware
+# deb https://security.debian.org/debian-security/ trixie-security main contrib non-free non-free-firmware
+# deb https://deb.debian.org/debian/ trixie-backports main contrib non-free
+# Kernel.org (北美)
+# deb https://mirrors.kernel.org/debian/ trixie main contrib non-free non-free-firmware
+# deb https://mirrors.kernel.org/debian/ trixie-updates main contrib non-free non-free-firmware
+# deb https://security.debian.org/debian-security/ trixie-security main contrib non-free non-free-firmware
+# Hetzner (欧洲)
+# deb https://mirror.hetzner.com/debian/ trixie main contrib non-free non-free-firmware
+# deb https://mirror.hetzner.com/debian/ trixie-updates main contrib non-free non-free-firmware
+# deb https://security.debian.org/debian-security/ trixie-security main contrib non-free non-free-firmware
+# JAIST (日本)
+# deb https://ftp.jaist.ac.jp/pub/Linux/debian/ trixie main contrib non-free non-free-firmware
+# deb https://ftp.jaist.ac.jp/pub/Linux/debian/ trixie-updates main contrib non-free non-free-firmware
+# deb https://security.debian.org/debian-security/ trixie-security main contrib non-free non-free-firmware
+# AARNet (澳洲)
+# deb https://mirror.aarnet.edu.au/debian/ trixie main contrib non-free non-free-firmware
+# deb https://mirror.aarnet.edu.au/debian/ trixie-updates main contrib non-free non-free-firmware
+# deb https://security.debian.org/debian-security/ trixie-security main contrib non-free non-free-firmware
 EOF
 
 echo "[TinyOS] APT 加速参数（并发下载 + 断点重试）"

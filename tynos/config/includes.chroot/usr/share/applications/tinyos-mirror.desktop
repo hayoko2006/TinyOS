@@ -1,9 +1,9 @@
 [Desktop Entry]
 Type=Application
-Name=软件源优选（国内镜像）
+Name=软件源优选（国内/国际镜像）
 Name[en]=Software Mirror Selector
-Comment=测试中科大/清华/阿里/华为等镜像延迟并自动切换最优节点
-Comment[en]=Test latency of Chinese mirrors and switch to the fastest
+Comment=测试国内与官方/国际镜像延迟并自动切换最优节点
+Comment[en]=Test latency of domestic and international mirrors and switch to the fastest
 Exec=konsole -e sudo tinyos-mirror
 Icon=system-software-update
 Terminal=false

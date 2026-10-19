@@ -1,6 +1,6 @@
 #!/bin/bash
 # TinyOS 首次开机初始化
-# 1) 自动优选软件源（延迟最低的国内镜像）
+# 1) 自动优选软件源（延迟最低的国内/国际镜像）
 # 2) 校验兼容层可用性
 # 3) 刷新软件包索引
 set -u
@@ -12,7 +12,7 @@ log "开始首次开机初始化"
 
 # --- 1. 软件源自动优选 ---
 if command -v tinyos-mirror >/dev/null 2>&1; then
-    log "测试国内镜像延迟并自动选择最优节点..."
+    log "测试镜像延迟（国内/国际）并自动选择最优节点..."
     if timeout 120 tinyos-mirror --auto --quiet; then
         log "软件源已优选完成"
     else
