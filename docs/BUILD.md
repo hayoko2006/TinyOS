@@ -177,7 +177,7 @@ tinyos-wine info           # 查看兼容层状态
 **安卓应用兼容层** — `config/hooks/live/0300-waydroid.hook.chroot`
 
 - 来源：Debian **trixie-backports** 官方仓库（`waydroid`，无需第三方源）。
-- 构建期执行 `waydroid init -s VANILLA` 预下载安卓镜像，实现开箱即用。
+- 构建期按 Waydroid OTA 清单直连下载并校验（sha256）VANILLA 安卓镜像（绕过 chroot 内缺失的 binder 检查），实现开箱即用。
 - 启用 `waydroid-container` 服务；默认开启多窗口模式，安卓应用以独立窗口显示在 KDE 桌面。
 - 依赖宿主机内核 `binderfs`（Debian 6.12 内核已启用）。
 
@@ -239,7 +239,7 @@ qemu-system-x86_64 -m 4096 -smp 4 -enable-kvm \
 |------|-----------|
 | `debootstrap` 校验失败/超时 | 更换 `TINYOS_MIRROR_CHROOT`（如换成 `https://` 或 TUNA）；检查网络与磁盘空间 |
 | Waydroid 安装失败 | 确认 `--backports true` 生效、`trixie-backports` 可达；构建日志搜索 `waydroid` |
-| Waydroid 镜像下载失败 | 构建脚本会对 `waydroid init` 重试 3 次；也可在网络良好时手动 `waydroid init -s VANILLA` |
+| Waydroid 镜像下载失败 | 构建钩子会重试 3 次；也可在网络良好时在装好的系统里运行 `sudo tinyos-waydroid init` |
 | Plymouth 主题报错 | 不影响启动；检查 `/usr/share/plymouth/themes/tinyos/` 下 `logo.png`、`bar_fg.png`、`bar_bg.png` 是否存在 |
 | 图标主题未生效 | 确认已装 `papirus-icon-theme`；执行 `gtk-update-icon-cache -f /usr/share/icons/Papirus` |
 | 中文显示为方块 | 确认 `fonts-noto-cjk` 已安装；执行 `fc-cache -f` |

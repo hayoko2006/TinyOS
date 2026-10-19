@@ -14,16 +14,80 @@ if [ -n "${SVC}" ]; then
     echo "[TinyOS] 已启用 waydroid-container 服务"
 fi
 
-# 预下载安卓系统镜像（VANILLA 版，约 800MB），实现开箱即用
-if [ ! -f /var/lib/waydroid/images/system.img ]; then
-    mkdir -p /var/lib/waydroid
-    echo "[TinyOS] 预下载 Android 系统镜像（VANILLA）..."
+# 预下载安卓系统镜像（VANILLA），实现开箱即用。
+# chroot 内没有 binder 内核节点，waydroid init 会先做 binder 检查而直接失败，
+# 因此按 waydroid OTA 清单（与 init 完全相同的 URL 格式）直接下载并校验：
+#   system: https://ota.waydro.id/system/lineage/waydroid_x86_64/VANILLA.json
+#   vendor: https://ota.waydro.id/vendor/waydroid_x86_64/MAINLINE.json
+# 解压到 /var/lib/waydroid/images —— 该目录属于 waydroid 的 preinstalled_images_paths，
+# 首次运行 init 时会直接采用，不会再联网下载。
+if [ ! -f /var/lib/waydroid/images/system.img ] || [ ! -f /var/lib/waydroid/images/vendor.img ]; then
+    mkdir -p /var/lib/waydroid/images
+    echo "[TinyOS] 预下载 Android 系统镜像（VANILLA，约 1GB）..."
     for i in 1 2 3; do
-        if waydroid init -s VANILLA; then break; fi
+        if python3 - <<'PYEOF'
+import hashlib
+import json
+import os
+import ssl
+import urllib.request
+import zipfile
+
+IMAGES_PATH = "/var/lib/waydroid/images"
+CHANNELS = [
+    ("https://ota.waydro.id/system/lineage/waydroid_x86_64/VANILLA.json", "system.img"),
+    ("https://ota.waydro.id/vendor/waydroid_x86_64/MAINLINE.json", "vendor.img"),
+]
+UA = {"User-Agent": "TinyOS-build/1.0"}
+CTX = ssl.create_default_context()
+
+
+def latest_build(manifest_url):
+    req = urllib.request.Request(manifest_url, headers=UA)
+    with urllib.request.urlopen(req, timeout=60, context=CTX) as r:
+        builds = json.loads(r.read().decode("utf-8"))["response"]
+    if not builds:
+        raise RuntimeError("OTA manifest is empty: " + manifest_url)
+    return max(builds, key=lambda b: b["datetime"])
+
+
+def download_and_extract(build):
+    name = build["filename"]
+    digest = hashlib.sha256()
+    tmp = os.path.join("/tmp", name)
+    print("[TinyOS]   下载 %s (%.0f MB)" % (name, build["size"] / 1048576))
+    req = urllib.request.Request(build["url"], headers=UA)
+    with urllib.request.urlopen(req, timeout=120, context=CTX) as resp, open(tmp, "wb") as f:
+        while True:
+            chunk = resp.read(4 * 1024 * 1024)
+            if not chunk:
+                break
+            f.write(chunk)
+            digest.update(chunk)
+    if digest.hexdigest() != build["id"]:
+        os.remove(tmp)
+        raise RuntimeError("sha256 mismatch: " + name)
+    with zipfile.ZipFile(tmp) as z:
+        z.extractall(IMAGES_PATH)
+    os.remove(tmp)
+
+
+for channel, marker in CHANNELS:
+    if os.path.isfile(os.path.join(IMAGES_PATH, marker)):
+        continue
+    download_and_extract(latest_build(channel))
+print("[TinyOS]   Android 镜像就绪")
+PYEOF
+        then
+            break
+        fi
         echo "[TinyOS] 镜像下载失败，重试 (${i}/3)..."
         sleep 5
     done
 fi
+
+# 镜像必须就位（CI 的关键组件断言同样依赖它）
+[ -f /var/lib/waydroid/images/system.img ] && [ -f /var/lib/waydroid/images/vendor.img ]
 
 # 默认开启多窗口模式（安卓应用以独立窗口在 KDE 桌面中显示）
 mkdir -p /var/lib/waydroid

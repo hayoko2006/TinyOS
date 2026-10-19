@@ -18,6 +18,7 @@ chmod 1777 /tmp /var/tmp 2>/dev/null || true
 chmod 0700 /var/lib/waydroid 2>/dev/null || true
 
 echo "[TinyOS] 记录构建信息"
+mkdir -p /usr/share/tinyos
 EDITION="stable"
 if [ -f /etc/tinyos-edition ]; then
     EDITION="$(cat /etc/tinyos-edition)"
