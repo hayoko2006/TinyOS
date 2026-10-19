@@ -135,20 +135,22 @@ jobs:
           ACCEL=""
           [ -w /dev/kvm ] && ACCEL="-enable-kvm -cpu host"
           # shellcheck disable=SC2086
+          # 注意：-daemonize 会把 QEMU 的工作目录切到 /，
+          # 因此 socket/serial/cdrom/screendump 必须使用绝对路径
           qemu-system-x86_64 $ACCEL -m 4096 -smp 2 \
             -device virtio-vga -display none \
-            -cdrom "$ISO" -boot d \
+            -cdrom "$PWD/$ISO" -boot d \
             -vnc 127.0.0.1:1 \
-            -monitor unix:mon.sock,server,nowait \
-            -serial file:evidence/serial.log \
+            -monitor unix:"$PWD/mon.sock",server,nowait \
+            -serial file:"$PWD/evidence/serial.log" \
             -no-reboot -daemonize
-          shot() { echo "screendump evidence/$1.ppm" | socat - UNIX-CONNECT:mon.sock \
+          shot() { echo "screendump $PWD/evidence/$1.ppm" | socat - UNIX-CONNECT:"$PWD/mon.sock" \
                      || echo "[warn] screendump $1 失败"; }
           sleep 45;  shot 01-grub
           sleep 75;  shot 02-kernel
           sleep 90;  shot 03-login
           sleep 150; shot 04-desktop
-          echo "info status" | socat - UNIX-CONNECT:mon.sock > evidence/qemu-status.txt \
+          echo "info status" | socat - UNIX-CONNECT:"$PWD/mon.sock" > evidence/qemu-status.txt \
             || echo "[warn] qemu status 查询失败"
           for f in evidence/*.ppm; do
             [ -e "$f" ] || { echo "[warn] 未产生任何 ppm 截图"; break; }
