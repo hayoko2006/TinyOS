@@ -129,7 +129,7 @@ sudo TINYOS_VERSION=1.1.0 TINYOS_MIRROR_BINARY=https://mirrors.tuna.tsinghua.edu
 
 1. `--apt-indices false`：镜像内不留 APT 索引（首次开机自动 `apt update` 重建）。
 2. `/etc/dpkg/dpkg.cfg.d/01-tinyos-trim`：后续安装的软件同样不再写入文档/手册/信息页。
-3. 删除 `/usr/share/doc`（保留 `copyright` 以满足许可）、`/usr/share/man`、`/usr/share/info`、`/usr/share/groff`。
+3. 清空 `/usr/share/doc`（保留 `copyright` 以满足许可）与 `/usr/share/man`、`/usr/share/info`、`/usr/share/groff` 的内容（目录本身保留，否则 binary 阶段 apt 事务中的 `install-info` 等维护脚本会失败）。
 4. 语言包仅保留 `en*` 与 `zh*`。
 5. `apt-get autoremove --purge` + 清理 `/var/lib/apt/lists`、`/var/cache/apt`、日志。
 

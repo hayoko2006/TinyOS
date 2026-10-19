@@ -20,7 +20,11 @@ EOF
 echo "[TinyOS] 删除文档与手册（保留版权文件以满足许可要求）"
 find /usr/share/doc -type f ! -name 'copyright' -delete 2>/dev/null || true
 find /usr/share/doc -mindepth 1 -type d -empty -delete 2>/dev/null || true
-rm -rf /usr/share/man /usr/share/info /usr/share/groff /usr/share/lintian /usr/share/linda
+# 仅清空内容、保留目录本身：live-build 的 binary 阶段会在 chroot 内安装/卸载
+# GRUB 相关包，触发 install-info 等维护脚本；目录缺失会导致
+# "Not a directory: /usr/share/info" 令 dpkg 事务失败、构建中断。
+find /usr/share/man /usr/share/info /usr/share/groff -mindepth 1 -delete 2>/dev/null || true
+rm -rf /usr/share/lintian /usr/share/linda
 
 echo "[TinyOS] 精简语言包（保留 en / zh）"
 find /usr/share/locale -mindepth 1 -maxdepth 1 -type d \
