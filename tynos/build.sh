@@ -138,8 +138,15 @@ fi
 # ----------------------------------------------------------------------------
 log "5/7 lb build（首次构建需下载 2-4GB 软件包，Waydroid 安卓镜像另需下载约 800MB）"
 BUILD_LOG="${BUILD_DIR}/build-$(date +%Y%m%d-%H%M%S).log"
-# 失败时保留日志到产物目录，供 CI 的"失败时输出构建日志"步骤与本地排错使用
-trap 'mkdir -p "${OUT_DIR}"; cp -f "${BUILD_LOG}" "${OUT_DIR}/build.log" 2>/dev/null || true' ERR
+
+# 失败时保留日志：产物目录一份，仓库 docs/evidence/ 一份（CI 的归档步骤会提交后者，
+# 便于在无凭据环境下排查失败原因）
+save_failure_log() {
+    mkdir -p "${OUT_DIR}" "${SCRIPT_DIR}/../docs/evidence"
+    cp -f "${BUILD_LOG}" "${OUT_DIR}/build.log" 2>/dev/null || true
+    tail -n 500 "${BUILD_LOG}" > "${SCRIPT_DIR}/../docs/evidence/build-tail.log" 2>/dev/null || true
+}
+trap 'save_failure_log' ERR
 lb build 2>&1 | tee "${BUILD_LOG}"
 trap - ERR
 
