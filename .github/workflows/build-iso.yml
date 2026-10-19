@@ -127,9 +127,11 @@ jobs:
         id: boot
         continue-on-error: true
         run: |
+          mkdir -p evidence
+          # 完整输出落盘归档，便于无凭据环境下排查截图环节问题
+          exec > >(tee evidence/boot-test.log) 2>&1
           set -x
           ISO=$(ls out/*.iso | head -1)
-          mkdir -p evidence
           ACCEL=""
           [ -w /dev/kvm ] && ACCEL="-enable-kvm -cpu host"
           # shellcheck disable=SC2086
@@ -140,13 +142,18 @@ jobs:
             -monitor unix:mon.sock,server,nowait \
             -serial file:evidence/serial.log \
             -no-reboot -daemonize
-          shot() { echo "screendump evidence/$1.ppm" | socat - UNIX-CONNECT:mon.sock; }
+          shot() { echo "screendump evidence/$1.ppm" | socat - UNIX-CONNECT:mon.sock \
+                     || echo "[warn] screendump $1 失败"; }
           sleep 45;  shot 01-grub
           sleep 75;  shot 02-kernel
           sleep 90;  shot 03-login
           sleep 150; shot 04-desktop
-          echo "info status" | socat - UNIX-CONNECT:mon.sock > evidence/qemu-status.txt
-          for f in evidence/*.ppm; do convert "$f" "${f%.ppm}.png"; done
+          echo "info status" | socat - UNIX-CONNECT:mon.sock > evidence/qemu-status.txt \
+            || echo "[warn] qemu status 查询失败"
+          for f in evidence/*.ppm; do
+            [ -e "$f" ] || { echo "[warn] 未产生任何 ppm 截图"; break; }
+            convert "$f" "${f%.ppm}.png" || echo "[warn] convert 失败: $f"
+          done
           pkill -f qemu-system-x86_64 || true
           ls -lh evidence/
 
@@ -208,6 +215,33 @@ jobs:
           retention-days: 30
           if-no-files-found: ignore
 
+      - name: 发布到 GitHub Releases
+        id: release
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -eu
+          TAG="v${VERSION}"
+          ISO=$(ls out/*.iso | head -1)
+          # GitHub Release 单个资产上限 2GB，ISO 超过上限时改以分卷发布
+          if [ "$(stat -c%s "$ISO")" -gt 2000000000 ]; then
+            ASSETS=$(ls out/*.part-*)
+            NOTE="ISO 大于 2GB（GitHub 单资产上限），故以 1900MB 分卷分发。下载全部分卷后用 \`tools/join-iso.sh\`（Linux）或 \`tools/join-iso.ps1\`（Windows）合并，脚本会自动比对 SHA256。"
+          else
+            ASSETS="$ISO"
+            NOTE="直接下载下方 ISO 即可。"
+          fi
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release ${TAG} 已存在，覆盖更新资产"
+          else
+            gh release create "$TAG" \
+              --title "TinyOS ${VERSION} (${EDITION})" \
+              --notes "$(printf 'TinyOS %s（%s 口味）—— 基于 Debian 13 trixie 的定制桌面系统。\n\n%s\n' "${VERSION}" "${EDITION}" "${NOTE}")"
+          fi
+          gh release upload "$TAG" $ASSETS out/*.sha256 --clobber
+          gh release view "$TAG" --json url --jq .url
+
       - name: 汇总
         if: always()
         run: |
@@ -225,5 +259,10 @@ jobs:
               echo "| ISO | 未生成 |"
             fi
             echo "| 启动测试 | ${{ steps.boot.outcome }} |"
+            if [ "${{ steps.release.outcome }}" = "success" ]; then
+              echo "| Release | [v${VERSION}](https://github.com/${GITHUB_REPOSITORY}/releases/tag/v${VERSION}) |"
+            else
+              echo "| Release | ${{ steps.release.outcome }} |"
+            fi
             echo "| Runner | ${RUNNER_OS} / KVM $( [ -w /dev/kvm ] && echo 可用 || echo 不可用 ) |"
           } >> "$GITHUB_STEP_SUMMARY"
