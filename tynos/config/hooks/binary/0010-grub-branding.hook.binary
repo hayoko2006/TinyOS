@@ -1,5 +1,5 @@
 #!/bin/sh
-# TinyOS binary 阶段钩子：为 GRUB 注入主题与菜单品牌名
+# TinyOS binary 阶段钩子：为 GRUB 注入主题、品牌名与自动引导超时
 # 运行于 binary 树（ISO 文件系统）中，不经过 chroot
 set -e
 
@@ -12,14 +12,39 @@ if [ -d "${GRUB_THEME_SRC}" ]; then
     if [ -f "${WALLPAPER}" ]; then
         cp -f "${WALLPAPER}" "${GRUB_THEME_SRC}/background.png"
     fi
-    # 在 grub.cfg 中启用主题（同时处理 BIOS/UEFI 两份配置）
+
+    # 处理 BIOS / UEFI 两份配置：启用主题、品牌化菜单、确保无人值守也能自动引导
     for cfg in /boot/grub/grub.cfg /isolinux/grub.cfg /EFI/boot/grub.cfg; do
         [ -f "${cfg}" ] || continue
-        grep -q 'tinyos/theme.txt' "${cfg}" && continue
-        sed -i "1i set theme=(\$root)/boot/grub/themes/tinyos/theme.txt\nexport theme\ntrue" "${cfg}"
+
+        if ! grep -q 'tinyos/theme.txt' "${cfg}"; then
+            sed -i "1i set theme=(\$root)/boot/grub/themes/tinyos/theme.txt\nexport theme\ntrue" "${cfg}"
+        fi
+
         # 菜单标题品牌化
         sed -i 's/Debian GNU\/Linux Live/TinyOS 1.0/g' "${cfg}"
         sed -i 's/Debian GNU\/Linux/TinyOS 1.0/g' "${cfg}"
+
+        # 自动引导：live-build 模板可能没有 timeout（导致停在菜单等待回车），
+        # 或把默认项设成非首项；此处统一强制为 10 秒倒计时 + 首项启动，
+        # 使真机免交互、QEMU 冒烟测试能真正进入系统。
+        if grep -qE '^[[:space:]]*set[[:space:]]+timeout=' "${cfg}"; then
+            sed -i -E 's|^[[:space:]]*set[[:space:]]+timeout=.*|set timeout=10|' "${cfg}"
+        else
+            sed -i '1i set timeout=10' "${cfg}"
+        fi
+
+        if grep -qE '^[[:space:]]*set[[:space:]]+default=' "${cfg}"; then
+            sed -i -E 's|^[[:space:]]*set[[:space:]]+default=.*|set default=0|' "${cfg}"
+        else
+            sed -i '1i set default=0' "${cfg}"
+        fi
+
+        if ! grep -qE '^[[:space:]]*set[[:space:]]+timeout_style=' "${cfg}"; then
+            sed -i '1i set timeout_style=menu' "${cfg}"
+        fi
+
+        echo "[TinyOS] 已处理 ${cfg}"
     done
 fi
 
