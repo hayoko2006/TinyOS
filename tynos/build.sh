@@ -104,7 +104,7 @@ lb config noauto \
     --security true \
     --updates true \
     --linux-flavours "${ARCH}" \
-    --linux-packages "linux-image-%VERSION%" \
+    --linux-packages "linux-image" \
     --memtest none \
     --bootappend-live "boot=live components quiet splash locales=zh_CN.UTF-8 keyboard-layouts=us timezone=Asia/Shanghai" \
     --bootappend-live-failsafe "boot=live components memtest noapic noapm nodma nomce nolapic nomodeset" \

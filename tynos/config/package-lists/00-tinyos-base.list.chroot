@@ -42,7 +42,7 @@ firmware-misc-nonfree
 firmware-iwlwifi
 firmware-realtek
 firmware-amd-graphics
-sof-firmware
+firmware-sof-signed
 alsa-utils
 alsa-ucm-conf
 
