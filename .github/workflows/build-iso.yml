@@ -226,22 +226,41 @@ jobs:
           set -eu
           TAG="v${VERSION}"
           ISO=$(ls out/*.iso | head -1)
+          NAME=$(basename "$ISO")
+          EXTRA=""
           # GitHub Release 单个资产上限 2GB，ISO 超过上限时改以分卷发布
           if [ "$(stat -c%s "$ISO")" -gt 2000000000 ]; then
             ASSETS=$(ls out/*.part-*)
-            NOTE="ISO 大于 2GB（GitHub 单资产上限），故以 1900MB 分卷分发。下载全部分卷后用 \`tools/join-iso.sh\`（Linux）或 \`tools/join-iso.ps1\`（Windows）合并，脚本会自动比对 SHA256。"
+            N=$(ls out/*.part-* | wc -l)
+            EXTRA="tools/join-iso.sh tools/join-iso.ps1"
+            NOTE=$(printf '%s\n' \
+              "### 下载与合并（2 步）" \
+              "" \
+              "1. 把下方 Assets 里的**全部文件**下载到同一目录（${N} 个分卷 + 1 个 .sha256 + 2 个合并脚本）；" \
+              "2. 合并并自动校验 SHA256：" \
+              "" \
+              "Linux / macOS：" \
+              "" \
+              "    bash join-iso.sh ${NAME}" \
+              "" \
+              "Windows PowerShell：" \
+              "" \
+              "    .\\join-iso.ps1 -Prefix ${NAME}" \
+              "" \
+              "合并后得到 ${NAME}（$(du -h "$ISO" | cut -f1)），可直接写盘或用虚拟机启动。" \
+              "" \
+              "> 说明：GitHub Release 单个资产上限 2 GiB，完整 ISO 超出该限制，故以分卷分发。")
           else
             ASSETS="$ISO"
             NOTE="直接下载下方 ISO 即可。"
           fi
           if gh release view "$TAG" >/dev/null 2>&1; then
-            echo "Release ${TAG} 已存在，覆盖更新资产"
+            echo "Release ${TAG} 已存在，更新说明与资产"
+            gh release edit "$TAG" --title "TinyOS ${VERSION} (${EDITION})" --notes "$NOTE"
           else
-            gh release create "$TAG" \
-              --title "TinyOS ${VERSION} (${EDITION})" \
-              --notes "$(printf 'TinyOS %s（%s 口味）—— 基于 Debian 13 trixie 的定制桌面系统。\n\n%s\n' "${VERSION}" "${EDITION}" "${NOTE}")"
+            gh release create "$TAG" --title "TinyOS ${VERSION} (${EDITION})" --notes "$NOTE"
           fi
-          gh release upload "$TAG" $ASSETS out/*.sha256 --clobber
+          gh release upload "$TAG" $ASSETS out/*.sha256 $EXTRA --clobber
           gh release view "$TAG" --json url --jq .url
 
       - name: 汇总
