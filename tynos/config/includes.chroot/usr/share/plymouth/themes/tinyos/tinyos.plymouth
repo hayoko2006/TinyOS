@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=TinyOS
+Description=TinyOS 开机动画：深空背景 + 品牌标识淡入 + 极光青进度条
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/tinyos
+ScriptFile=tinyos.script

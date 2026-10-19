@@ -1,0 +1,31 @@
+#!/bin/sh
+# TinyOS 0200: Windows 程序兼容层（Wine + DXVK + Gamescope/Gamemode 性能优化）
+set -e
+export DEBIAN_FRONTEND=noninteractive
+
+echo "[TinyOS] 启用 i386 多架构（运行 32 位 Windows 程序）"
+dpkg --add-architecture i386
+apt-get update -qq
+
+echo "[TinyOS] 安装 Wine"
+apt-get install -y --no-install-recommends \
+    wine wine64 wine32 winbind winetricks fonts-wine
+
+echo "[TinyOS] 安装游戏性能优化组件"
+# 性能调度守护进程（自动切换 CPU 性能模式）
+apt-get install -y gamemode || true
+# 帧率监控叠加层（可选）
+apt-get install -y mangohud || true
+# DXVK（Direct3D -> Vulkan 转译，若仓库提供则预装）
+if apt-cache show dxvk >/dev/null 2>&1; then
+    apt-get install -y dxvk || true
+    echo "[TinyOS] 已从仓库安装 DXVK"
+else
+    echo "[TinyOS] 仓库无 dxvk 包，将使用 Wine 内置 wined3d；可用 tinyos-wine dxvk 手动安装"
+fi
+
+# Wine 前缀模板目录（首次启动时复制给每个用户）
+install -d -m 0755 /etc/skel/.config/tinyos
+echo "wine" > /etc/skel/.config/tinyos/compat-layer
+
+echo "[TinyOS] Wine 兼容层集成完成"

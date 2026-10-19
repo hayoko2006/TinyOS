@@ -1,0 +1,55 @@
+#!/bin/sh
+# TinyOS 0600: 服务启用与 Qt6 输入法模块
+set -e
+export DEBIAN_FRONTEND=noninteractive
+
+echo "[TinyOS] 启用 fcitx5 输入法（若仓库提供 Qt6 桥接则一并安装）"
+apt-get install -y fcitx5-frontend-qt6 || \
+    apt-get install -y fcitx5-frontend-qt5 || \
+    echo "[TinyOS] 未找到 Qt 输入法桥接包，fcitx5 仍可通过 GTK 生效"
+apt-get install -y im-config || true
+
+# fcitx5 开机自启（XDG autostart）
+cat > /etc/xdg/autostart/fcitx5.desktop <<'EOF'
+[Desktop Entry]
+Type=Application
+Name=Fcitx5
+Name[zh_CN]=小企鹅输入法
+Exec=fcitx5 -d
+Terminal=false
+X-GNOME-Autostart-Phase=Applications
+EOF
+
+# ---- 通用：在 multi-user.target.wants 中启用某个 unit ----
+enable_unit() {
+    _unit="$1"
+    for d in /etc/systemd/system /usr/lib/systemd/system /lib/systemd/system; do
+        if [ -f "$d/$_unit" ]; then
+            mkdir -p /etc/systemd/system/multi-user.target.wants
+            ln -sf "$d/$_unit" "/etc/systemd/system/multi-user.target.wants/$_unit"
+            echo "[TinyOS] 已启用 $_unit"
+            return 0
+        fi
+    done
+    echo "[TinyOS] 警告：未找到 unit $_unit"
+    return 1
+}
+
+echo "[TinyOS] 启用首次开机服务"
+enable_unit tinyos-firstboot.service
+
+echo "[TinyOS] 启用 Waydroid 容器服务"
+enable_unit waydroid-container.service
+
+echo "[TinyOS] 设置默认显示管理器为 SDDM"
+for d in /usr/lib/systemd/system /lib/systemd/system /etc/systemd/system; do
+    if [ -f "$d/sddm.service" ]; then
+        mkdir -p /etc/systemd/system
+        rm -f /etc/systemd/system/display-manager.service
+        ln -sf "$d/sddm.service" /etc/systemd/system/display-manager.service
+        echo "[TinyOS] display-manager.service -> $d/sddm.service"
+        break
+    fi
+done
+
+echo "[TinyOS] 服务配置完成"

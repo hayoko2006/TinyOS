@@ -1,0 +1,71 @@
+# TinyOS 开机动画脚本 (Plymouth script plugin)
+# 效果：深空渐变背景 -> 品牌标识淡入 -> 底部极光青进度条平滑推进
+
+# ---- 背景色（与深色壁纸同源：深空蓝 #0b0f1a -> #1a243d）----
+Window.SetBackgroundTopColor(0.043, 0.059, 0.102);
+Window.SetBackgroundBottomColor(0.102, 0.141, 0.239);
+
+screen_w = Window.GetWidth();
+screen_h = Window.GetHeight();
+
+# ---- 品牌标识（PNG，居中偏上）----
+logo = Image("logo.png");
+logo_ratio = logo.GetWidth() / logo.GetHeight();
+logo_w = screen_w * 0.18;
+logo = logo.Scale(logo_w, logo_w / logo_ratio);
+logo_sprite = Sprite(logo);
+logo_sprite.SetX((screen_w - logo.GetWidth()) / 2);
+logo_sprite.SetY(screen_h * 0.40 - logo.GetHeight() / 2);
+logo_sprite.SetOpacity(0);
+
+# ---- 进度条 ----
+bar_w = screen_w * 0.24;
+bar_h = 6;
+bar_x = (screen_w - bar_w) / 2;
+bar_y = screen_h * 0.62;
+
+bar_bg_img = Image("bar_bg.png");
+bar_bg_img = bar_bg_img.Scale(bar_w, bar_h);
+bar_bg_sprite = Sprite(bar_bg_img);
+bar_bg_sprite.SetPosition(bar_x, bar_y);
+
+bar_fg_sprite = Sprite();
+bar_fg_sprite.SetPosition(bar_x, bar_y);
+
+# ---- 动画状态 ----
+alpha = 0;
+progress = 0;
+
+fun refresh_callback()
+{
+    # 标识淡入
+    if (alpha < 1)
+    {
+        alpha = Math.Min(alpha + 0.02, 1);
+        logo_sprite.SetOpacity(alpha);
+    }
+
+    # 进度条平滑推进（渐近到 95%，等待系统就绪）
+    if (progress < 0.95)
+    {
+        progress = progress + (0.95 - progress) * 0.01;
+        width_now = Math.Max(bar_w * progress, 1);
+        bar_fg_sprite.SetImage(Image("bar_fg.png").Scale(width_now, bar_h));
+    }
+    else
+    {
+        bar_fg_sprite.SetImage(Image("bar_fg.png").Scale(bar_w, bar_h));
+    }
+}
+
+Plymouth.SetRefreshFunction(refresh_callback);
+
+# ---- 启动完成：进度条填满 ----
+fun quit_callback()
+{
+    progress = 1;
+    bar_fg_sprite.SetImage(Image("bar_fg.png").Scale(bar_w, bar_h));
+    logo_sprite.SetOpacity(1);
+}
+
+Plymouth.SetQuitFunction(quit_callback);

@@ -1,0 +1,85 @@
+#!/bin/bash
+# ============================================================================
+# TinyOS 安卓应用兼容层助手（Waydroid）
+#   tinyos-waydroid start              启动安卓容器（并开启多窗口模式）
+#   tinyos-waydroid stop               停止安卓容器
+#   tinyos-waydroid status             查看运行状态
+#   tinyos-waydroid ui                 打开完整安卓界面
+#   tinyos-waydroid install <apk>      安装 APK
+#   tinyos-waydroid uninstall <包名>   卸载应用
+#   tinyos-waydroid list               列出已安装应用
+#   tinyos-waydroid shell              进入安卓 shell
+#   tinyos-waydroid init               初始化/重新下载安卓镜像
+# ============================================================================
+set -u
+
+die() { echo "[TinyOS] 错误: $*" >&2; exit 1; }
+need_root() { [ "$(id -u)" -eq 0 ] || exec sudo "$0" "$@"; }
+
+command -v waydroid >/dev/null 2>&1 || die "系统内未找到 waydroid"
+
+case "${1:-status}" in
+    start)
+        echo "[TinyOS] 启动安卓容器..."
+        need_root "$@"
+        systemctl start waydroid-container 2>/dev/null || true
+        sleep 2
+        # 多窗口模式：安卓应用作为独立窗口显示在 KDE 桌面上
+        waydroid prop set persist.waydroid.multi_windows true >/dev/null 2>&1 || true
+        waydroid session start >/dev/null 2>&1 &
+        sleep 3
+        waydroid status
+        echo "[TinyOS] 安卓容器已启动。用 tinyos-waydroid ui 打开界面，或在应用菜单中直接点击已安装应用。"
+        ;;
+
+    stop)
+        need_root "$@"
+        echo "[TinyOS] 停止安卓容器..."
+        waydroid session stop >/dev/null 2>&1 || true
+        systemctl stop waydroid-container 2>/dev/null || true
+        echo "[TinyOS] 已停止"
+        ;;
+
+    status)
+        waydroid status 2>/dev/null || echo "[TinyOS] 容器未运行（执行 tinyos-waydroid start 启动）"
+        echo
+        echo "镜像: $( [ -f /var/lib/waydroid/images/system.img ] && echo 已安装 || echo 未安装 )"
+        ;;
+
+    ui)
+        waydroid session start >/dev/null 2>&1 &
+        sleep 2
+        waydroid show-full-ui
+        ;;
+
+    install)
+        [ $# -ge 2 ] || die "用法: tinyos-waydroid install <应用.apk>"
+        [ -f "$2" ] || die "文件不存在: $2"
+        echo "[TinyOS] 正在安装 $2 ..."
+        waydroid app install "$2" && echo "[TinyOS] 安装完成，可在应用菜单中找到"
+        ;;
+
+    uninstall)
+        [ $# -ge 2 ] || die "用法: tinyos-waydroid uninstall <包名>"
+        waydroid app remove "$2" && echo "[TinyOS] 已卸载 $2"
+        ;;
+
+    list)
+        echo "[TinyOS] 已安装的安卓应用:"
+        waydroid app list 2>/dev/null || echo "  容器未运行"
+        ;;
+
+    shell)
+        waydroid shell
+        ;;
+
+    init)
+        need_root "$@"
+        echo "[TinyOS] 初始化安卓镜像（VANILLA）。如需 Google 服务请手动执行: waydroid init -s GAPPS"
+        waydroid init -s VANILLA -f
+        ;;
+
+    *)
+        die "未知子命令: $1（可用: start|stop|status|ui|install|uninstall|list|shell|init）"
+        ;;
+esac

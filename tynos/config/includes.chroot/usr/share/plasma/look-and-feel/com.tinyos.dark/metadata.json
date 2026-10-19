@@ -1,0 +1,20 @@
+{
+    "KPackageStructure": "Plasma/LookAndFeel",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "hayoko@hayoko.cn",
+                "Name": "TinyOS Project"
+            }
+        ],
+        "Description": "TinyOS 深色美化方案：深空夜色配色 + 极光青点缀",
+        "Description[en]": "TinyOS Dark: deep night palette with aurora-teal accents",
+        "Id": "com.tinyos.dark",
+        "License": "GPL-2.0-or-later",
+        "Name": "TinyOS 深色",
+        "Name[en]": "TinyOS Dark",
+        "Version": "1.0.0",
+        "Website": "https://tiny.hayoko.cn"
+    },
+    "X-Plasma-API": "5.0"
+}

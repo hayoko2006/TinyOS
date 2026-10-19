@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=TinyOS 深色方案
+Name[en]=TinyOS Dark Theme
+Comment=一键切换到深色美化方案（配色/图标/壁纸/登录界面）
+Comment[en]=Switch to the dark theme preset
+Exec=tinyos-theme dark
+Icon=preferences-desktop-theme
+Terminal=false
+Categories=Settings;DesktopSettings;X-TinyOS;
+Keywords=theme;dark;深色;美化;

@@ -1,0 +1,39 @@
+# TinyOS 桌面层（KDE Plasma 6 + Wayland）
+kde-plasma-desktop
+plasma-workspace
+sddm
+sddm-theme-breeze
+
+# 核心应用
+konsole
+dolphin
+kate
+kwrite
+ark
+okular
+gwenview
+kcalc
+spectacle
+kinfocenter
+systemsettings
+kscreen
+powerdevil
+bluedevil
+plasma-pa
+xdg-desktop-portal-kde
+
+# 浏览器（中文界面）
+firefox-esr
+firefox-esr-l10n-zh-cn
+
+# 图标与字体（现代化主题基础）
+papirus-icon-theme
+fonts-noto-cjk
+fonts-noto-core
+fonts-noto-color-emoji
+
+# 中文输入法（fcitx5）
+fcitx5
+fcitx5-chinese-addons
+fcitx5-configtool
+fcitx5-frontend-gtk3

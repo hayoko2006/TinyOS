@@ -1,0 +1,14 @@
+[KDE]
+LookAndFeelPackage=com.tinyos.dark
+SingleClick=false
+
+[General]
+BrowserApplication=firefox-esr.desktop
+TerminalApplication=konsole
+ fixedFont=Noto Sans Mono,10,-1,5,50,0,0,0,0,0
+XftAntialias=true
+XftHintStyle=hintslight
+XftSubPixel=rgb
+
+[Icons]
+Theme=Papirus-Dark

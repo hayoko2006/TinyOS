@@ -1,0 +1,39 @@
+#!/bin/sh
+# TinyOS 0700: 深度裁剪（文档/手册/多余语言包/缓存清理）
+set -e
+export DEBIAN_FRONTEND=noninteractive
+
+echo "[TinyOS] 清理可自动移除的依赖"
+apt-get autoremove --purge -y >/dev/null 2>&1 || true
+
+echo "[TinyOS] 配置 dpkg 路径排除（后续安装的软件也不再写入文档/手册）"
+cat > /etc/dpkg/dpkg.cfg.d/01-tinyos-trim <<'EOF'
+path-exclude=/usr/share/doc/*
+path-exclude=/usr/share/man/*
+path-exclude=/usr/share/info/*
+path-exclude=/usr/share/groff/*
+path-exclude=/usr/share/lintian/*
+path-exclude=/usr/share/linda/*
+path-include=/usr/share/doc/*/copyright
+EOF
+
+echo "[TinyOS] 删除文档与手册（保留版权文件以满足许可要求）"
+find /usr/share/doc -type f ! -name 'copyright' -delete 2>/dev/null || true
+find /usr/share/doc -mindepth 1 -type d -empty -delete 2>/dev/null || true
+rm -rf /usr/share/man /usr/share/info /usr/share/groff /usr/share/lintian /usr/share/linda
+
+echo "[TinyOS] 精简语言包（保留 en / zh）"
+find /usr/share/locale -mindepth 1 -maxdepth 1 -type d \
+    ! -name 'en*' ! -name 'zh*' -exec rm -rf {} + 2>/dev/null || true
+find /usr/share/locale -mindepth 1 -maxdepth 1 -type f \
+    ! -name 'locale.alias' -delete 2>/dev/null || true
+
+echo "[TinyOS] 清理缓存与日志"
+apt-get clean
+rm -rf /var/lib/apt/lists/* /var/cache/apt/*.bin /var/cache/apt/archives/*.deb
+rm -rf /var/tmp/* /tmp/* 2>/dev/null || true
+find /var/log -type f -exec sh -c ': > "$1"' _ {} \; 2>/dev/null || true
+rm -f /root/.bash_history /root/.wget-hsts 2>/dev/null || true
+
+echo "[TinyOS] 裁剪完成，当前根文件系统占用:"
+du -sh / 2>/dev/null | cut -f1

@@ -1,0 +1,34 @@
+#!/bin/sh
+# TinyOS 0300: 安卓应用兼容层（Waydroid，来自 trixie-backports 官方仓库）
+set -e
+export DEBIAN_FRONTEND=noninteractive
+
+echo "[TinyOS] 从 trixie-backports 安装 Waydroid"
+apt-get install -y --no-install-recommends -t trixie-backports waydroid
+
+# 启用容器服务（chroot 内直接建立 systemd 链接，避免依赖运行中的 systemd）
+SVC="$(find /usr/lib/systemd/system /lib/systemd/system -name waydroid-container.service 2>/dev/null | head -n1)"
+if [ -n "${SVC}" ]; then
+    mkdir -p /etc/systemd/system/multi-user.target.wants
+    ln -sf "${SVC}" /etc/systemd/system/multi-user.target.wants/waydroid-container.service
+    echo "[TinyOS] 已启用 waydroid-container 服务"
+fi
+
+# 预下载安卓系统镜像（VANILLA 版，约 800MB），实现开箱即用
+if [ ! -f /var/lib/waydroid/images/system.img ]; then
+    mkdir -p /var/lib/waydroid
+    echo "[TinyOS] 预下载 Android 系统镜像（VANILLA）..."
+    for i in 1 2 3; do
+        if waydroid init -s VANILLA; then break; fi
+        echo "[TinyOS] 镜像下载失败，重试 (${i}/3)..."
+        sleep 5
+    done
+fi
+
+# 默认开启多窗口模式（安卓应用以独立窗口在 KDE 桌面中显示）
+mkdir -p /var/lib/waydroid
+if [ ! -f /var/lib/waydroid/waydroid.cfg ]; then
+    printf '[waydroid]\nmulti_windows = true\n' > /var/lib/waydroid/waydroid-base.cfg || true
+fi
+
+echo "[TinyOS] 安卓兼容层集成完成"

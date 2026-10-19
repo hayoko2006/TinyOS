@@ -1,0 +1,16 @@
+# 构建产物
+out/
+tynos/out/
+
+# 构建期生成的品牌素材（由 tynos/tools/gen-assets.py 生成，不入库）
+tynos/config/includes.chroot/usr/share/wallpapers/*/contents/images/*.png
+tynos/config/includes.chroot/usr/share/plymouth/themes/tinyos/*.png
+
+# 本机辅助
+_env/assets/
+*.log
+!docs/evidence/*.log
+
+# 编辑器
+*~
+.DS_Store

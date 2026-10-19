@@ -1,0 +1,115 @@
+#!/bin/bash
+# ============================================================================
+# TinyOS Windows 程序兼容层助手（Wine + DXVK + Gamemode）
+#   tinyos-wine setup                 初始化 Wine 前缀（首次使用必做）
+#   tinyos-wine run <程序.exe>        以兼容模式运行 Windows 程序
+#   tinyos-wine game <程序.exe>       游戏模式运行（Gamemode + 高性能调度）
+#   tinyos-wine dxvk [前缀]           为前缀启用 DXVK（Direct3D -> Vulkan 硬件加速）
+#   tinyos-wine undxvk [前缀]         撤销 DXVK，回退到 wined3d
+#   tinyos-wine kill                  结束所有 Wine 进程
+#   tinyos-wine open <文件>           用关联的 Windows 程序打开文件
+#   tinyos-wine info                  显示兼容层状态
+# ============================================================================
+set -u
+
+PREFIX="${WINEPREFIX:-${HOME}/.wine}"
+export WINEDEBUG="${WINEDEBUG:--all}"
+export WINEDLLOVERRIDES="${WINEDLLOVERRIDES:-mscoree,mshtml=}"
+
+die() { echo "[TinyOS] 错误: $*" >&2; exit 1; }
+has() { command -v "$1" >/dev/null 2>&1; }
+
+dxvk_dir() {
+    for d in /usr/share/dxvk /usr/local/share/dxvk "${HOME}/.local/share/dxvk"; do
+        [ -d "${d}/x64" ] && { echo "${d}"; return; }
+    done
+}
+
+cmd_setup() {
+    has wine || die "系统内未找到 wine"
+    echo "[TinyOS] 正在初始化 Wine 前缀: ${PREFIX}"
+    WINEPREFIX="${PREFIX}" wineboot -u >/dev/null 2>&1 || die "wineboot 初始化失败"
+    mkdir -p "${HOME}/Windows 程序"
+    echo "[TinyOS] Wine 前缀初始化完成。"
+    echo "  · 把 Windows 程序(.exe)放到「${HOME}/Windows 程序」后右键即可运行"
+    echo "  · 命令行运行:  tinyos-wine run 程序.exe"
+    echo "  · 游戏推荐:    tinyos-wine game 游戏.exe"
+}
+
+cmd_run() {
+    [ $# -ge 1 ] || die "用法: tinyos-wine run <程序.exe>"
+    [ -f "${PREFIX}/system.reg" ] || { echo "[TinyOS] 前缀未初始化，先执行 tinyos-wine setup"; cmd_setup; }
+    has wine || die "系统内未找到 wine"
+    echo "[TinyOS] 运行 Windows 程序: $1"
+    wine "$@"
+}
+
+cmd_game() {
+    [ $# -ge 1 ] || die "用法: tinyos-wine game <游戏.exe>"
+    [ -f "${PREFIX}/system.reg" ] || cmd_setup
+    if has gamemoderun; then
+        echo "[TinyOS] 游戏模式：Gamemode + Wine（已提升 CPU/GPU 调度优先级）"
+        gamemoderun wine "$@"
+    else
+        echo "[TinyOS] 未安装 gamemode，使用普通模式运行"
+        wine "$@"
+    fi
+}
+
+cmd_dxvk() {
+    local pfx="${1:-${PREFIX}}"
+    local src; src="$(dxvk_dir)"
+    [ -n "${src}" ] || die "系统内未找到 DXVK。请执行: sudo apt install dxvk 或从 https://github.com/doitsujin/dxvk/releases 下载"
+    [ -f "${pfx}/system.reg" ] || die "Wine 前缀不存在: ${pfx}（先运行 tinyos-wine setup）"
+    echo "[TinyOS] 为前缀 ${pfx} 启用 DXVK (${src})"
+    for arch in x64 x32; do
+        [ -d "${src}/${arch}" ] || continue
+        case "$arch" in
+            x64) dst="${pfx}/drive_c/windows/system32" ;;
+            x32) dst="${pfx}/drive_c/windows/syswow64" ;;
+        esac
+        cp -f "${src}/${arch}"/*.dll "${dst}/" 2>/dev/null || true
+    done
+    # 覆盖 DLL 顺序
+    export WINEDLLOVERRIDES="d3d9,builtin;dxgi,builtin;d3d10core,builtin;d3d11,builtin;wineprefix=${pfx}"
+    WINEPREFIX="${pfx}" wine reg add 'HKEY_CURRENT_USER\Software\Wine\DllOverrides' /v d3d9 /d native /f >/dev/null 2>&1 || true
+    for d in d3d10core d3d11 dxvk; do
+        WINEPREFIX="${pfx}" wine reg add 'HKEY_CURRENT_USER\Software\Wine\DllOverrides' /v "$d" /d native /f >/dev/null 2>&1 || true
+    done
+    echo "[TinyOS] DXVK 已启用。Direct3D 9/10/11 将走 Vulkan 硬件加速。"
+}
+
+cmd_undxvk() {
+    local pfx="${1:-${PREFIX}}"
+    echo "[TinyOS] 撤销前缀 ${pfx} 的 DXVK（需重建前缀或手动删除以下 DLL）"
+    for f in d3d9.dll d3d10core.dll d3d11.dll dxgi.dll; do
+        rm -f "${pfx}/drive_c/windows/system32/${f}" "${pfx}/drive_c/windows/syswow64/${f}" 2>/dev/null || true
+    done
+    echo "[TinyOS] 已移除 DXVK DLL，将回退到 Wine 内置 wined3d。"
+}
+
+cmd_kill() {
+    has wineserver && wineserver -k || die "未找到 wineserver"
+    echo "[TinyOS] 已结束所有 Wine 进程"
+}
+
+cmd_info() {
+    echo "===== TinyOS Windows 兼容层 ====="
+    if has wine; then echo "Wine      : $(wine --version 2>/dev/null)"; else echo "Wine      : 未安装"; fi
+    echo "前缀      : ${PREFIX}  $([ -f "${PREFIX}/system.reg" ] && echo '[已初始化]' || echo '[未初始化]')"
+    if has gamemoderun; then echo "Gamemode  : 已安装（游戏模式可用）"; else echo "Gamemode  : 未安装"; fi
+    if [ -n "$(dxvk_dir)" ]; then echo "DXVK      : 已安装（可执行 tinyos-wine dxvk）"; else echo "DXVK      : 未安装（可用 tinyos-wine dxvk 指引安装）"; fi
+    if has winetricks; then echo "Winetricks: 已安装"; else echo "Winetricks: 未安装"; fi
+}
+
+case "${1:-info}" in
+    setup) shift; cmd_setup "$@";;
+    run)   shift; cmd_run "$@";;
+    game)  shift; cmd_game "$@";;
+    dxvk)  shift; cmd_dxvk "$@";;
+    undxvk) shift; cmd_undxvk "$@";;
+    kill)  shift; cmd_kill "$@";;
+    open)  shift; cmd_run "$@";;
+    info)  cmd_info;;
+    *)     die "未知子命令: $1（可用: setup|run|game|dxvk|undxvk|kill|open|info）";;
+esac

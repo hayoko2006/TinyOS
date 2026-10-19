@@ -1,0 +1,4 @@
+# 可选：磁盘安装器（Calamares）
+# 默认禁用；构建时设置 TINYOS_INSTALLER=1 且仓库存在 calamares 时自动启用
+calamares
+calamares-settings-debian

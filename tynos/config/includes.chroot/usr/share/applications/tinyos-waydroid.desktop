@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=安卓应用（Waydroid）
+Name[en]=Android Apps (Waydroid)
+Comment=启动安卓子系统并打开应用界面，可直接安装运行 APK
+Comment[en]=Launch the Android container and open the app UI
+Exec=tinyos-waydroid ui
+Icon=android-brand
+Terminal=false
+Categories=System;Utility;X-TinyOS;
+Keywords=android;apk;安卓;应用;

@@ -1,0 +1,226 @@
+name: 构建 TinyOS ISO
+
+# 云端构建：在 GitHub 托管的 Ubuntu 跑者内启动 Debian 13 容器，
+# 用 live-build 产出 iso-hybrid 镜像，随后做离线内容断言 + QEMU 启动冒烟测试。
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 版本号（TINYOS_VERSION）
+        required: false
+        default: "1.0.0"
+      edition:
+        description: 发行口味（TINYOS_EDITION，与 Debian 基座代号解耦）
+        required: false
+        default: "whuang"
+  push:
+    branches: [main]
+    paths:
+      - "tynos/**"
+      - ".github/workflows/build-iso.yml"
+
+concurrency:
+  group: tinyos-iso-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write   # 启动测试证据需回写仓库
+
+jobs:
+  build-and-test:
+    name: 构建 + 启动测试
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    env:
+      VERSION: ${{ inputs.version || '1.0.0' }}
+      EDITION: ${{ inputs.edition || 'whuang' }}
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 释放磁盘空间
+        run: |
+          sudo rm -rf --one-file-system \
+            /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL \
+            /usr/local/share/boost /usr/share/swift /usr/local/.ghcup /usr/lib/jvm \
+            /usr/local/share/powershell /opt/az /opt/microsoft /usr/local/lib/node_modules \
+            /usr/local/share/chromium /opt/google || true
+          sudo apt-get clean
+          df -h /
+
+      - name: 构建 ISO（Debian 13 容器）
+        timeout-minutes: 300
+        run: |
+          mkdir -p out
+          docker run --privileged --rm \
+            -v "$PWD:/work" \
+            -w /work/tynos \
+            -e TINYOS_VERSION="$VERSION" \
+            -e TINYOS_EDITION="$EDITION" \
+            -e TINYOS_OUT_DIR=/work/out \
+            -e TINYOS_MIN_FREE_MB=18000 \
+            debian:13 bash -lc './build.sh'
+
+      - name: 失败时输出构建日志
+        if: failure()
+        run: tail -n 300 out/build.log 2>/dev/null || echo "无构建日志"
+
+      - name: 校验镜像与校验和
+        run: |
+          set -eux
+          ls -lh out/
+          cd out
+          sha256sum -c ./*.sha256
+          file ./*.iso
+          xxd -l 512 ./*.iso | head -5
+
+      - name: 离线校验镜像内容（需求对照）
+        run: |
+          set -e
+          ISO=$(ls out/*.iso | head -1)
+          mkdir -p mnt
+          sudo mount -o loop,ro "$ISO" mnt
+          echo "== ISO 顶层 =="; ls mnt
+          echo "== /live =="; ls -lh mnt/live
+          sudo unsquashfs -l mnt/live/filesystem.squashfs > sq.list
+          sudo umount mnt
+          echo "== 关键组件断言 =="
+          FAILED=0
+          check() {
+            if grep -qF "$1" sq.list; then echo "  [OK]   $1"; else echo "  [MISS] $1"; FAILED=1; fi
+          }
+          # 需求 2：美化套件
+          check 'usr/share/plasma/look-and-feel/com.tinyos.dark/'
+          check 'usr/share/plasma/look-and-feel/com.tinyos.light/'
+          check 'usr/share/plasma/look-and-feel/com.tinyos.aurora/'
+          check 'usr/share/color-schemes/TinyOSDark.colors'
+          check 'usr/share/color-schemes/TinyOSAurora.colors'
+          check 'usr/share/wallpapers/TinyOS-Dark/contents/images/1920x1080.png'
+          check 'usr/share/plymouth/themes/tinyos/tinyos.plymouth'
+          check 'usr/share/sddm/themes/tinyos/theme.conf'
+          check 'usr/local/bin/tinyos-theme'
+          check 'usr/share/applications/tinyos-theme-dark.desktop'
+          # 需求 3：兼容层
+          check 'usr/local/bin/tinyos-wine'
+          check 'usr/local/bin/tinyos-waydroid'
+          check 'var/lib/waydroid/images/system.img'
+          # 需求 4：镜像源工具
+          check 'usr/local/bin/tinyos-mirror'
+          # 需求 1/5：基座、裁剪与品牌化
+          check 'etc/tinyos-edition'
+          check 'usr/share/tinyos/build-info'
+          check 'etc/apt/apt.conf.d/99tinyos'
+          [ "$FAILED" = "0" ] || { echo "存在缺失项，失败退出"; exit 1; }
+
+      - name: 安装 QEMU 与取证工具
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq qemu-system-x86 qemu-utils socat imagemagick squashfs-tools
+          if [ -w /dev/kvm ]; then echo "KVM 可用（硬件加速）"; else echo "KVM 不可用，使用软件模拟"; fi
+
+      - name: QEMU 启动冒烟测试（截图取证）
+        id: boot
+        continue-on-error: true
+        run: |
+          set -x
+          ISO=$(ls out/*.iso | head -1)
+          mkdir -p evidence
+          ACCEL=""
+          [ -w /dev/kvm ] && ACCEL="-enable-kvm -cpu host"
+          # shellcheck disable=SC2086
+          qemu-system-x86_64 $ACCEL -m 4096 -smp 2 \
+            -device virtio-vga -display none \
+            -cdrom "$ISO" -boot d \
+            -vnc 127.0.0.1:1 \
+            -monitor unix:mon.sock,server,nowait \
+            -serial file:evidence/serial.log \
+            -no-reboot -daemonize
+          shot() { echo "screendump evidence/$1.ppm" | socat - UNIX-CONNECT:mon.sock; }
+          sleep 45;  shot 01-grub
+          sleep 75;  shot 02-kernel
+          sleep 90;  shot 03-login
+          sleep 150; shot 04-desktop
+          echo "info status" | socat - UNIX-CONNECT:mon.sock > evidence/qemu-status.txt
+          for f in evidence/*.ppm; do convert "$f" "${f%.ppm}.png"; done
+          pkill -f qemu-system-x86_64 || true
+          ls -lh evidence/
+
+      - name: 归档测试证据到仓库
+        if: always()
+        run: |
+          mkdir -p docs/evidence
+          cp -f evidence/*.png evidence/*.log evidence/*.txt docs/evidence/ 2>/dev/null || true
+          grep -E 'usr/local/bin/|usr/share/plasma/look-and-feel/com\.tinyos|usr/share/plymouth/themes/tinyos|var/lib/waydroid/images|usr/share/wallpapers/TinyOS|usr/share/tinyos/' sq.list 2>/dev/null \
+            | head -80 > docs/evidence/squashfs-keyfiles.txt || true
+          ls -lh docs/evidence/ || true
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f docs/evidence
+          if git diff --cached --quiet; then
+            echo "无新证据需要归档"
+          else
+            git commit -m "ci: 归档 ISO 构建与启动测试证据 [skip ci]"
+            git push
+          fi
+
+      - name: 分卷（ISO > 2GB 时，便于下载与二次分发）
+        run: |
+          cd out
+          ISO=$(ls *.iso | head -1)
+          if [ "$(stat -c%s "$ISO")" -gt 2000000000 ]; then
+            split -b 1900M -d -a 2 "$ISO" "${ISO}.part-"
+            ls -lh
+          else
+            echo "ISO 小于 2GB，无需分卷"
+          fi
+
+      - name: 上传 ISO（完整文件）
+        uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with:
+          name: tinyos-iso
+          path: |
+            out/*.iso
+            out/*.iso.sha256
+            out/build.log
+          compression-level: 0
+          retention-days: 30
+
+      - name: 上传 ISO 分卷
+        uses: actions/upload-artifact@v4
+        with:
+          name: tinyos-iso-parts
+          path: out/*.part-*
+          compression-level: 0
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: 上传测试证据
+        uses: actions/upload-artifact@v4
+        with:
+          name: tinyos-evidence
+          path: docs/evidence/
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: 汇总
+        if: always()
+        run: |
+          {
+            echo "## TinyOS ${VERSION} (${EDITION}) 构建结果"
+            echo ""
+            echo "| 项目 | 值 |"
+            echo "|------|-----|"
+            if ls out/*.iso >/dev/null 2>&1; then
+              ISO=$(ls out/*.iso | head -1)
+              echo "| ISO | \`$(basename "$ISO")\` |"
+              echo "| 大小 | $(du -h "$ISO" | cut -f1) |"
+              echo "| SHA256 | \`$(cut -d' ' -f1 "out/$(basename "$ISO").sha256")\` |"
+            else
+              echo "| ISO | 未生成 |"
+            fi
+            echo "| 启动测试 | ${{ steps.boot.outcome }} |"
+            echo "| Runner | ${RUNNER_OS} / KVM $( [ -w /dev/kvm ] && echo 可用 || echo 不可用 ) |"
+          } >> "$GITHUB_STEP_SUMMARY"

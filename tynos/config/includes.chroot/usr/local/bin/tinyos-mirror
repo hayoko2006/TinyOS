@@ -1,0 +1,187 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+TinyOS 软件源优选工具
+
+自动测试国内主流开源镜像站的连接延迟，选择最快的节点写入 /etc/apt/sources.list
+
+用法:
+    tinyos-mirror                 交互式选择（列出延迟并自动采用最优）
+    tinyos-mirror --auto          非交互，自动采用最优节点
+    tinyos-mirror --list          仅列出各镜像延迟，不修改
+    tinyos-mirror --set ustc      指定使用某个镜像
+    tinyos-mirror --quiet         静默模式
+"""
+import argparse
+import concurrent.futures
+import http.client
+import os
+import re
+import shutil
+import ssl
+import subprocess
+import sys
+import time
+
+TRIXIE = "trixie"
+
+# 名称 -> (主机, 路径前缀, 是否支持 https)
+MIRRORS = {
+    "ustc":    ("mirrors.ustc.edu.cn",           "",        True),
+    "tuna":    ("mirrors.tuna.tsinghua.edu.cn",  "",        True),
+    "aliyun":  ("mirrors.aliyun.com",            "debian",  True),
+    "huawei":  ("mirrors.huaweicloud.com",       "debian",  True),
+    "tencent": ("mirrors.cloud.tencent.com",     "debian",  True),
+    "163":     ("mirrors.163.com",               "debian",  False),
+    "sjtu":    ("mirror.sjtu.edu.cn",            "debian",  True),
+}
+
+LABELS = {
+    "ustc": "中国科学技术大学 (USTC)",
+    "tuna": "清华大学 (TUNA)",
+    "aliyun": "阿里云",
+    "huawei": "华为云",
+    "tencent": "腾讯云",
+    "163": "网易",
+    "sjtu": "上海交通大学",
+}
+
+SOURCES_PATH = "/etc/apt/sources.list"
+TEST_TIMEOUT = 6
+
+
+def deb_url(name, https=True):
+    """返回该镜像的 debian 根 URL"""
+    host, prefix, supports_https = MIRRORS[name]
+    scheme = "https" if (https and supports_https) else "http"
+    path = f"/{prefix}/debian/" if prefix else "/debian/"
+    return f"{scheme}://{host}{path}"
+
+
+def probe(name):
+    """测量镜像延迟（秒），失败返回 None"""
+    url = deb_url(name)
+    m = re.match(r"(https?)://([^/]+)(/.*)", url)
+    scheme, host, path = m.group(1), m.group(2), m.group(3)
+    release = path.rstrip("/") + f"/dists/{TRIXIE}/Release"
+    start = time.time()
+    try:
+        ctx = ssl.create_default_context()
+        if scheme == "https":
+            conn = http.client.HTTPSConnection(host, timeout=TEST_TIMEOUT, context=ctx)
+        else:
+            conn = http.client.HTTPConnection(host, timeout=TEST_TIMEOUT)
+        conn.request("HEAD", release)
+        resp = conn.getresponse()
+        conn.close()
+        if resp.status >= 400:
+            return None
+        return round(time.time() - start, 3) * 1000  # 毫秒
+    except Exception:
+        return None
+
+
+def measure_all():
+    results = {}
+    with concurrent.futures.ThreadPoolExecutor(max_workers=len(MIRRORS)) as ex:
+        futures = {ex.submit(probe, n): n for n in MIRRORS}
+        for fut in concurrent.futures.as_completed(futures):
+            name = futures[fut]
+            try:
+                results[name] = fut.result()
+            except Exception:
+                results[name] = None
+    return results
+
+
+def write_sources(name, quiet=False):
+    base = deb_url(name)
+    security = f"{base.rstrip('/')}/../debian-security/"
+    if MIRRORS[name][1]:  # 带路径前缀的镜像，security 也在根下
+        security = f"{base.split('/debian/')[0]}/debian-security/"
+    lines = [
+        f"# TinyOS 软件源 —— 由 tinyos-mirror 自动生成",
+        f"# 当前使用: {LABELS[name]}",
+        f"",
+        f"deb {base} {TRIXIE} main contrib non-free non-free-firmware",
+        f"deb {base} {TRIXIE}-updates main contrib non-free non-free-firmware",
+        f"deb {security} {TRIXIE}-security main contrib non-free non-free-firmware",
+        f"deb {base} {TRIXIE}-backports main contrib non-free",
+        f"",
+        "# ---- 其他可选镜像（取消注释并注释上方即可切换）----",
+    ]
+    for other in MIRRORS:
+        if other == name:
+            continue
+        ob = deb_url(other)
+        lines.append(f"# deb {ob} {TRIXIE} main contrib non-free non-free-firmware")
+    lines.append("")
+
+    content = "\n".join(lines)
+    if os.geteuid() != 0:
+        print("需要 root 权限写入 /etc/apt/sources.list，请使用 sudo。", file=sys.stderr)
+        sys.exit(1)
+    if os.path.exists(SOURCES_PATH):
+        shutil.copy2(SOURCES_PATH, SOURCES_PATH + ".tinyos-bak")
+    with open(SOURCES_PATH, "w", encoding="utf-8") as fh:
+        fh.write(content)
+    if not quiet:
+        print(f"[TinyOS] 已切换软件源: {LABELS[name]}")
+        print(f"[TinyOS] 原配置已备份至 {SOURCES_PATH}.tinyos-bak")
+
+
+def main():
+    ap = argparse.ArgumentParser(description="TinyOS 软件源优选工具")
+    ap.add_argument("--auto", action="store_true", help="自动采用最优节点")
+    ap.add_argument("--list", action="store_true", help="仅列出各镜像延迟")
+    ap.add_argument("--set", metavar="NAME", help=f"指定镜像: {', '.join(MIRRORS)}")
+    ap.add_argument("--quiet", action="store_true", help="静默模式")
+    args = ap.parse_args()
+
+    if args.set:
+        if args.set not in MIRRORS:
+            print(f"未知镜像: {args.set}", file=sys.stderr)
+            sys.exit(1)
+        write_sources(args.set, args.quiet)
+        return
+
+    if not args.quiet:
+        print("[TinyOS] 正在测试国内镜像站延迟...")
+    results = measure_all()
+
+    ranked = sorted(
+        ((n, v) for n, v in results.items() if v is not None),
+        key=lambda kv: kv[1],
+    )
+    if not args.quiet:
+        for n, v in ranked:
+            mark = " *" if n == (ranked[0][0] if ranked else "") else ""
+            print(f"  {LABELS[n]:<26} {v:7.0f} ms{mark}")
+        failed = [n for n, v in results.items() if v is None]
+        if failed:
+            print(f"  不可用: {', '.join(LABELS[f] for f in failed)}")
+
+    if not ranked:
+        print("[TinyOS] 所有镜像均不可达，保留现有配置", file=sys.stderr)
+        sys.exit(1)
+
+    best = ranked[0][0]
+    if args.auto:
+        write_sources(best, args.quiet)
+        if not args.quiet:
+            print(f"[TinyOS] 已自动采用最优节点: {LABELS[best]} ({ranked[0][1]:.0f} ms)")
+        return
+
+    if args.list:
+        return
+
+    # 交互
+    choice = input(f"\n采用最优节点 {LABELS[best]}? [Y/n] ").strip().lower()
+    if choice in ("", "y", "yes"):
+        write_sources(best)
+    else:
+        print("已取消，未修改配置。")
+
+
+if __name__ == "__main__":
+    main()

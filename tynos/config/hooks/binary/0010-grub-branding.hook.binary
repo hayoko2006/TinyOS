@@ -1,0 +1,26 @@
+#!/bin/sh
+# TinyOS binary 阶段钩子：为 GRUB 注入主题与菜单品牌名
+# 运行于 binary 树（ISO 文件系统）中，不经过 chroot
+set -e
+
+echo "[TinyOS] 注入 GRUB 主题"
+GRUB_THEME_SRC="/boot/grub/themes/tinyos"
+WALLPAPER="/usr/share/wallpapers/TinyOS-Dark/contents/images/1920x1080.png"
+
+if [ -d "${GRUB_THEME_SRC}" ]; then
+    # 生成 GRUB 主题背景（从深色壁纸复制）
+    if [ -f "${WALLPAPER}" ]; then
+        cp -f "${WALLPAPER}" "${GRUB_THEME_SRC}/background.png"
+    fi
+    # 在 grub.cfg 中启用主题（同时处理 BIOS/UEFI 两份配置）
+    for cfg in /boot/grub/grub.cfg /isolinux/grub.cfg /EFI/boot/grub.cfg; do
+        [ -f "${cfg}" ] || continue
+        grep -q 'tinyos/theme.txt' "${cfg}" && continue
+        sed -i "1i set theme=(\$root)/boot/grub/themes/tinyos/theme.txt\nexport theme\ntrue" "${cfg}"
+        # 菜单标题品牌化
+        sed -i 's/Debian GNU\/Linux Live/TinyOS 1.0/g' "${cfg}"
+        sed -i 's/Debian GNU\/Linux/TinyOS 1.0/g' "${cfg}"
+    done
+fi
+
+echo "[TinyOS] GRUB 品牌化完成"

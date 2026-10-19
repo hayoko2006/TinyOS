@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Windows 程序环境初始化
+Name[en]=Setup Wine Environment
+Comment=初始化 Wine 兼容层（首次运行 Windows 程序前执行一次）
+Comment[en]=Initialize the Wine prefix for running Windows programs
+Exec=konsole -e tinyos-wine setup
+Icon=wine
+Terminal=false
+Categories=System;Utility;X-TinyOS;
+Keywords=wine;exe;windows;兼容;

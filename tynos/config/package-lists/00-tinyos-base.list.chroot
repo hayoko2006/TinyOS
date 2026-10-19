@@ -1,0 +1,73 @@
+# TinyOS 基础系统层（Debian 13 trixie / amd64）
+live-boot
+live-config
+live-config-systemd
+systemd
+systemd-sysv
+dbus
+ca-certificates
+
+# 网络
+network-manager
+plasma-nm
+curl
+wget
+git
+rsync
+less
+
+# 系统工具
+sudo
+locales
+tzdata
+python3
+nano
+vim-tiny
+htop
+fastfetch
+unzip
+p7zip-full
+bzip2
+xz-utils
+pciutils
+usbutils
+parted
+sudo
+
+# 内核与固件（主流硬件兼容）
+linux-image-amd64
+firmware-linux
+firmware-linux-nonfree
+firmware-misc-nonfree
+firmware-iwlwifi
+firmware-realtek
+firmware-amd-graphics
+sof-firmware
+alsa-utils
+alsa-ucm-conf
+
+# 音频（PipeWire）
+pipewire
+pipewire-pulse
+pipewire-alsa
+wireplumber
+
+# 开机动画
+plymouth
+plymouth-themes
+
+# 磁盘/电源/权限/桌面基础
+udisks2
+upower
+xdg-user-dirs
+xdg-utils
+
+# 虚拟机客户机增强（便于在 QEMU/VMware 中测试）
+qemu-guest-agent
+spice-vdagent
+
+# Vulkan 与硬件视频加速（游戏兼容层依赖）
+mesa-vulkan-drivers
+libvulkan1
+vulkan-tools
+mesa-va-drivers

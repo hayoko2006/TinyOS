@@ -1,0 +1,37 @@
+#!/bin/sh
+# TinyOS 0400: 主题美化套件安装（SDDM 登录主题 / Plymouth 开机动画 / 图标缓存）
+set -e
+
+WALLPAPER_DARK="/usr/share/wallpapers/TinyOS-Dark/contents/images/1920x1080.png"
+WALLPAPER_LIGHT="/usr/share/wallpapers/TinyOS-Light/contents/images/1920x1080.png"
+
+echo "[TinyOS] 安装 SDDM 登录主题（基于 Breeze 重新品牌化）"
+if [ -d /usr/share/sddm/themes/breeze ]; then
+    rm -rf /usr/share/sddm/themes/tinyos
+    cp -a /usr/share/sddm/themes/breeze /usr/share/sddm/themes/tinyos
+    cat > /usr/share/sddm/themes/tinyos/theme.conf <<EOF
+[General]
+type=image
+background=${WALLPAPER_DARK}
+blur=true
+
+[Translations]
+EOF
+    echo "[TinyOS] SDDM 主题 tinyos 已安装"
+else
+    echo "[TinyOS] 警告：未找到 breeze SDDM 主题，跳过"
+fi
+
+echo "[TinyOS] 安装 Plymouth 开机动画"
+chmod +x /usr/share/plymouth/themes/tinyos/tinyos.script 2>/dev/null || true
+if command -v plymouth-set-default-theme >/dev/null 2>&1; then
+    plymouth-set-default-theme -R tinyos || \
+        echo "[TinyOS] 警告：Plymouth 主题激活失败（不影响系统启动）"
+fi
+
+echo "[TinyOS] 刷新图标与字体缓存"
+command -v gtk-update-icon-cache >/dev/null 2>&1 && \
+    gtk-update-icon-cache -q -t -f /usr/share/icons/Papirus 2>/dev/null || true
+command -v fc-cache >/dev/null 2>&1 && fc-cache -f >/dev/null 2>&1 || true
+
+echo "[TinyOS] 主题套件安装完成"

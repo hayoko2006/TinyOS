@@ -1,0 +1,14 @@
+[Unit]
+Description=TinyOS 首次开机初始化（软件源优选 / 兼容层检查）
+After=network-online.target
+Wants=network-online.target
+ConditionPathExists=!/var/lib/tinyos/.firstboot-done
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/tinyos-firstboot
+RemainAfterExit=yes
+TimeoutStartSec=600
+
+[Install]
+WantedBy=multi-user.target

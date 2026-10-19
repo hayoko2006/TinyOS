@@ -1,0 +1,14 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "TinyOS Project"
+            }
+        ],
+        "Id": "TinyOS-Aurora",
+        "License": "CC-BY-SA-4.0",
+        "Name": "TinyOS 极光",
+        "Name[en]": "TinyOS Aurora"
+    },
+    "X-KDE-PlasmaImageWallpaper-Author": "TinyOS Project"
+}

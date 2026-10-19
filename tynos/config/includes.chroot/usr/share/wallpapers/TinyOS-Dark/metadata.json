@@ -1,0 +1,14 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "TinyOS Project"
+            }
+        ],
+        "Id": "TinyOS-Dark",
+        "License": "CC-BY-SA-4.0",
+        "Name": "TinyOS 深色",
+        "Name[en]": "TinyOS Dark"
+    },
+    "X-KDE-PlasmaImageWallpaper-Author": "TinyOS Project"
+}

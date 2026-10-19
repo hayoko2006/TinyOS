@@ -1,0 +1,20 @@
+{
+    "KPackageStructure": "Plasma/LookAndFeel",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "hayoko@hayoko.cn",
+                "Name": "TinyOS Project"
+            }
+        ],
+        "Description": "TinyOS 浅色美化方案：清爽亮色配色 + 青玉点缀",
+        "Description[en]": "TinyOS Light: clean bright palette with jade accents",
+        "Id": "com.tinyos.light",
+        "License": "GPL-2.0-or-later",
+        "Name": "TinyOS 浅色",
+        "Name[en]": "TinyOS Light",
+        "Version": "1.0.0",
+        "Website": "https://tiny.hayoko.cn"
+    },
+    "X-Plasma-API": "5.0"
+}

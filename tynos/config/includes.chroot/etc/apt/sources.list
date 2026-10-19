@@ -1,0 +1,15 @@
+# TinyOS 默认软件源（若构建钩子未覆盖，此文件兜底）
+# 主源：中国科学技术大学 (USTC)
+deb https://mirrors.ustc.edu.cn/debian/ trixie main contrib non-free non-free-firmware
+deb https://mirrors.ustc.edu.cn/debian/ trixie-updates main contrib non-free non-free-firmware
+deb https://mirrors.ustc.edu.cn/debian-security/ trixie-security main contrib non-free non-free-firmware
+
+# 备用源（取消注释即可切换）
+# deb https://mirrors.tuna.tsinghua.edu.cn/debian/ trixie main contrib non-free non-free-firmware
+# deb https://mirrors.tuna.tsinghua.edu.cn/debian/ trixie-updates main contrib non-free non-free-firmware
+# deb https://mirrors.tuna.tsinghua.edu.cn/debian-security/ trixie-security main contrib non-free non-free-firmware
+# deb https://mirrors.aliyun.com/debian/ trixie main contrib non-free non-free-firmware
+# deb https://mirrors.cloud.tencent.com/debian/ trixie main contrib non-free non-free-firmware
+# deb https://mirrors.huaweicloud.com/debian/ trixie main contrib non-free non-free-firmware
+
+deb https://mirrors.ustc.edu.cn/debian/ trixie-backports main contrib non-free

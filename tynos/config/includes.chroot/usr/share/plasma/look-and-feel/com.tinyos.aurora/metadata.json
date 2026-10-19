@@ -1,0 +1,20 @@
+{
+    "KPackageStructure": "Plasma/LookAndFeel",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "hayoko@hayoko.cn",
+                "Name": "TinyOS Project"
+            }
+        ],
+        "Description": "TinyOS 极光美化方案：深邃靛蓝配色 + 紫粉极光点缀，视觉冲击力最强",
+        "Description[en]": "TinyOS Aurora: deep indigo palette with violet-pink aurora accents",
+        "Id": "com.tinyos.aurora",
+        "License": "GPL-2.0-or-later",
+        "Name": "TinyOS 极光",
+        "Name[en]": "TinyOS Aurora",
+        "Version": "1.0.0",
+        "Website": "https://tiny.hayoko.cn"
+    },
+    "X-Plasma-API": "5.0"
+}

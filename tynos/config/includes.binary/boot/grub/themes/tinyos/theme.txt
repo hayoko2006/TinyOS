@@ -1,0 +1,20 @@
+# TinyOS GRUB 启动菜单主题
+# 背景图由构建钩子从深色壁纸复制为 background.png
+
+desktop-image: "background.png"
+title-text: "TinyOS 1.0  ·  Debian 13 trixie"
+title-color: "#4fd1c5"
+message-color: "#c8d3e0"
+
++ boot_menu {
+    left = 12%
+    top = 36%
+    width = 44%
+    height = 40%
+    item_color = "#9aa7bd"
+    selected_item_color = "#4fd1c5"
+    item_height = 30
+    item_spacing = 6
+    icon_width = 0
+    icon_height = 0
+}

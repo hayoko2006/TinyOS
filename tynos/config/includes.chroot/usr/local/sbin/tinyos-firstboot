@@ -1,0 +1,41 @@
+#!/bin/bash
+# TinyOS 首次开机初始化
+# 1) 自动优选软件源（延迟最低的国内镜像）
+# 2) 校验兼容层可用性
+# 3) 刷新软件包索引
+set -u
+
+LOG_TAG="tinyos-firstboot"
+log() { logger -t "${LOG_TAG}" "$*"; echo "[TinyOS] $*"; }
+
+log "开始首次开机初始化"
+
+# --- 1. 软件源自动优选 ---
+if command -v tinyos-mirror >/dev/null 2>&1; then
+    log "测试国内镜像延迟并自动选择最优节点..."
+    if timeout 120 tinyos-mirror --auto --quiet; then
+        log "软件源已优选完成"
+    else
+        log "镜像优选超时，保留默认源（中科大）"
+    fi
+fi
+
+# --- 2. 兼容层检查 ---
+if command -v wine >/dev/null 2>&1; then
+    log "Windows 兼容层 (Wine $(wine --version 2>/dev/null | head -c 40)) 就绪"
+else
+    log "警告：未检测到 Wine"
+fi
+if command -v waydroid >/dev/null 2>&1; then
+    log "安卓兼容层 (Waydroid) 已安装"
+else
+    log "警告：未检测到 Waydroid"
+fi
+
+# --- 3. 刷新索引 ---
+log "刷新软件包索引..."
+apt-get update -qq >/dev/null 2>&1 || log "软件包索引刷新失败（可能无网络），可稍后手动执行 apt update"
+
+mkdir -p /var/lib/tinyos
+date -u '+%Y-%m-%dT%H:%M:%SZ' > /var/lib/tinyos/.firstboot-done
+log "首次开机初始化完成"

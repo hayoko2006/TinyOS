@@ -1,0 +1,98 @@
+#!/bin/bash
+# ============================================================================
+# TinyOS 一键美化方案切换
+#   tinyos-theme              显示当前方案
+#   tinyos-theme dark         切换到「深色」方案
+#   tinyos-theme light        切换到「浅色」方案
+#   tinyos-theme aurora       切换到「极光」方案
+#   tinyos-theme list         列出全部方案
+# 切换内容：Plasma 全局主题 / 配色 / 图标 / 壁纸 / 登录界面背景
+# ============================================================================
+set -u
+
+CURRENT_FILE="${HOME}/.config/tinyos/theme"
+SDDM_THEME_CONF="/usr/share/sddm/themes/tinyos/theme.conf"
+
+declare -A PKG=( [dark]="com.tinyos.dark" [light]="com.tinyos.light" [aurora]="com.tinyos.aurora" )
+declare -A COLOR=( [dark]="TinyOSDark" [light]="TinyOSLight" [aurora]="TinyOSAurora" )
+declare -A ICONS=( [dark]="Papirus-Dark" [light]="Papirus-Light" [aurora]="Papirus-Dark" )
+declare -A WALL=(
+    [dark]="/usr/share/wallpapers/TinyOS-Dark/contents/images/1920x1080.png"
+    [light]="/usr/share/wallpapers/TinyOS-Light/contents/images/1920x1080.png"
+    [aurora]="/usr/share/wallpapers/TinyOS-Aurora/contents/images/1920x1080.png"
+)
+declare -A LABEL=( [dark]="深色 (Dark)" [light]="浅色 (Light)" [aurora]="极光 (Aurora)" )
+
+notify() {
+    if command -v kdialog >/dev/null 2>&1; then
+        kdialog --title "TinyOS 美化" --passivepopup "$1" 4 2>/dev/null &
+    elif command -v notify-send >/dev/null 2>&1; then
+        notify-send "TinyOS 美化" "$1" 2>/dev/null || true
+    else
+        echo "$1"
+    fi
+}
+
+run_as_root() {
+    if [ "$(id -u)" -eq 0 ]; then "$@"
+    elif command -v pkexec >/dev/null 2>&1; then pkexec "$@"
+    else sudo -n "$@" 2>/dev/null || true
+    fi
+}
+
+apply_plasma_cmd() {
+    local cmd="$1"; shift
+    if command -v "$cmd" >/dev/null 2>&1; then
+        "$cmd" "$@" 2>/dev/null || true
+    fi
+}
+
+case "${1:-status}" in
+    list)
+        echo "TinyOS 可用美化方案:"
+        for k in dark light aurora; do
+            printf '  %-8s %s\n' "$k" "${LABEL[$k]}"
+        done
+        echo "当前方案: ${LABEL[$(cat "${CURRENT_FILE}" 2>/dev/null || echo dark)]}"
+        ;;
+
+    dark|light|aurora)
+        PLAN="$1"
+        echo "[TinyOS] 正在切换到「${LABEL[$PLAN]}」..."
+
+        # 1. Plasma 全局外观包（含配色/图标/壁纸默认值）
+        if command -v plasma-apply-lookandfeel >/dev/null 2>&1; then
+            plasma-apply-lookandfeel -a "${PKG[$PLAN]}" && echo "  全局主题: ${PKG[$PLAN]}"
+        else
+            # 回退：逐项应用
+            apply_plasma_cmd plasma-apply-colorscheme "${COLOR[$PLAN]}"
+            apply_plasma_cmd plasma-apply-icontheme "${ICONS[$PLAN]}"
+        fi
+
+        # 2. 显式确保配色 / 图标 / 光标一致
+        apply_plasma_cmd plasma-apply-colorscheme "${COLOR[$PLAN]}"
+        apply_plasma_cmd plasma-apply-icontheme "${ICONS[$PLAN]}"
+
+        # 3. 壁纸（Plasma 6）
+        if command -v plasma-apply-wallpaperimage >/dev/null 2>&1 && [ -f "${WALL[$PLAN]}" ]; then
+            plasma-apply-wallpaperimage "${WALL[$PLAN]}" && echo "  壁纸: $(basename "${WALL[$PLAN]}")"
+        fi
+
+        # 4. 登录界面（SDDM）背景同步
+        if [ -f "${SDDM_THEME_CONF}" ]; then
+            run_as_root sed -i "s|^background=.*|background=${WALL[$PLAN]}|" "${SDDM_THEME_CONF}" && \
+                echo "  登录界面背景已同步（下次登录生效）"
+        fi
+
+        mkdir -p "${HOME}/.config/tinyos"
+        echo "${PLAN}" > "${CURRENT_FILE}"
+        notify "已切换到「${LABEL[$PLAN]}」美化方案"
+        echo "[TinyOS] 完成。当前方案: ${LABEL[$PLAN]}"
+        ;;
+
+    status|*)
+        CUR="$(cat "${CURRENT_FILE}" 2>/dev/null || echo dark)"
+        echo "当前美化方案: ${LABEL[$CUR]:-${CUR}}"
+        echo "提示: tinyos-theme {dark|light|aurora|list}"
+        ;;
+esac

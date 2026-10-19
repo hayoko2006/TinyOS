@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=TinyOS 浅色方案
+Name[en]=TinyOS Light Theme
+Comment=一键切换到浅色美化方案（配色/图标/壁纸/登录界面）
+Comment[en]=Switch to the light theme preset
+Exec=tinyos-theme light
+Icon=preferences-desktop-theme
+Terminal=false
+Categories=Settings;DesktopSettings;X-TinyOS;
+Keywords=theme;light;浅色;美化;

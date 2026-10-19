@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=TinyOS 极光方案
+Name[en]=TinyOS Aurora Theme
+Comment=一键切换到极光美化方案（靛蓝紫粉配色/图标/壁纸/登录界面）
+Comment[en]=Switch to the aurora theme preset
+Exec=tinyos-theme aurora
+Icon=preferences-desktop-theme
+Terminal=false
+Categories=Settings;DesktopSettings;X-TinyOS;
+Keywords=theme;aurora;极光;美化;

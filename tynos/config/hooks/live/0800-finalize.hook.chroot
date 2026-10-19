@@ -1,0 +1,33 @@
+#!/bin/sh
+# TinyOS 0800: 收尾（桌面数据库/缓存/权限）
+set -e
+
+echo "[TinyOS] 刷新桌面数据库与 MIME 缓存"
+command -v update-desktop-database >/dev/null 2>&1 && \
+    update-desktop-database -q /usr/share/applications 2>/dev/null || true
+command -v update-mime-database >/dev/null 2>&1 && \
+    update-mime-database /usr/share/mime 2>/dev/null || true
+command -v gtk-update-icon-cache >/dev/null 2>&1 && \
+    gtk-update-icon-cache -q -t -f /usr/share/icons/hicolor 2>/dev/null || true
+
+echo "[TinyOS] 同步动态链接库缓存"
+ldconfig
+
+echo "[TinyOS] 确保关键目录权限正确"
+chmod 1777 /tmp /var/tmp 2>/dev/null || true
+chmod 0700 /var/lib/waydroid 2>/dev/null || true
+
+echo "[TinyOS] 记录构建信息"
+EDITION="stable"
+if [ -f /etc/tinyos-edition ]; then
+    EDITION="$(cat /etc/tinyos-edition)"
+fi
+cat > /usr/share/tinyos/build-info <<EOF
+TinyOS Version : 1.0.0 (${EDITION})
+Base           : Debian 13 trixie (stable)
+Desktop        : KDE Plasma 6 (Wayland)
+Compat         : Wine + Waydroid
+Built at       : $(date -u '+%Y-%m-%d %H:%M:%S UTC')
+EOF
+
+echo "[TinyOS] 收尾完成"
