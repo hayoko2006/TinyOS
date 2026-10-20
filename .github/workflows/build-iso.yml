@@ -89,13 +89,20 @@ jobs:
           echo "== /live =="; ls -lh mnt/live
           sudo unsquashfs -l mnt/live/filesystem.squashfs > sq.list
           echo "== GRUB 配置核对（品牌化 / 主题 / 自动引导）=="
-          sudo ls -l mnt/boot/grub/themes/tinyos/ 2>/dev/null || true
           {
+            echo "### /boot/grub/config.cfg（超时与主题来源）"
+            sudo cat mnt/boot/grub/config.cfg 2>/dev/null || echo "(缺失)"
+            echo ""
             echo "### /boot/grub/grub.cfg 关键行"
             sudo grep -nE 'set (theme|timeout|timeout_style|default)=|menuentry' mnt/boot/grub/grub.cfg 2>/dev/null || true
             echo ""
-            echo "### grub.cfg 前 40 行"
-            sudo head -40 mnt/boot/grub/grub.cfg 2>/dev/null || true
+            echo "### /boot/grub/grub.cfg 前 30 行"
+            sudo head -30 mnt/boot/grub/grub.cfg 2>/dev/null || true
+            echo ""
+            echo "### 引导器目录"
+            sudo ls -l mnt/boot/grub/ 2>/dev/null || true
+            sudo ls -l mnt/boot/grub/themes/tinyos/ 2>/dev/null || true
+            sudo ls -ld mnt/isolinux mnt/EFI 2>/dev/null || true
           } > docs/evidence/iso-grub.txt
           sudo umount mnt
           echo "== 关键组件断言 =="
