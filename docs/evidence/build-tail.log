@@ -1,207 +1,501 @@
 ### out/ 目录
-total 864
-drwxr-xr-x 2 runner runner   4096 Oct 20 07:37 .
-drwxr-xr-x 9 runner runner   4096 Oct 20 07:36 ..
--rw-r--r-- 1 root   root   868832 Oct 20 07:43 build.log
+total 3470980
+drwxr-xr-x  2 runner runner       4096 Oct 20 09:36 .
+drwxr-xr-x 11 runner runner       4096 Oct 20 09:43 ..
+-rw-r--r--  1 root   root       965166 Oct 20 09:36 build.log
+-rw-r--r--  1 root   root   3553296384 Oct 20 09:36 tinyos-1.0.0-whuang-amd64.iso
+-rw-r--r--  1 root   root           96 Oct 20 09:36 tinyos-1.0.0-whuang-amd64.iso.sha256
 
-### out/build.log 尾部 200 行
-Del libthai0 0.1.29-2+b1 [49.4 kB]
-Del libkf5bookmarks5 5.116.0-1 [85.2 kB]
-Del dolphin-plugins 4:25.04.0-1 [481 kB]
-Del plasma5-integration 6.3.6-1 [160 kB]
-Del libxcb1 1.17.0-2+b1 [144 kB]
-Del libopenexr-3-1-30 3.1.13-2 [945 kB]
-Del breeze-icon-theme 4:5.116.0-1 [5056 B]
-Del libqt5network5t64 5.15.15+dfsg-6+deb13u1 [682 kB]
-Del libasan8 14.2.0-19 [2725 kB]
-Del fonts-noto-ui-core 20201225-2 [1420 kB]
-Del libtomcrypt1 1.18.2+dfsg-7+b2 [402 kB]
-Del qml6-module-qtquick-layouts 6.8.2+dfsg-7 [79.8 kB]
-Del javascript-common 12+nmu1 [4864 B]
-Del firmware-b43-installer 1:019-14 [8620 B]
-Del python3-cryptography 43.0.0-3+deb13u1 [942 kB]
-Del libglib2.0-0t64 2.84.4-3~deb13u5 [1521 kB]
-Del pinentry-curses 1.3.1-2 [86.4 kB]
-Del qml6-module-qtwebengine 6.8.2+dfsg-4 [53.9 kB]
-Del libx264-164 2:0.164.3108+git31e19f9-2+b1 [558 kB]
-Del libgme0 0.6.3-7+b2 [131 kB]
-Del liblzma5 5.8.1-1+deb13u2 [310 kB]
-Del libkf6notifyconfig6 6.13.0-1 [31.7 kB]
-Del qt6-virtualkeyboard-plugin 6.8.2+dfsg-3 [7912 B]
-Del libnss3 2:3.110-1+deb13u4 [1394 kB]
-Del libnuma1 2.0.19-1 [22.2 kB]
-Del avahi-daemon 0.8-16 [83.6 kB]
-Del plasma-thunderbolt 6.3.4-1 [131 kB]
-Del libkf6contacts-data 6.13.0-1 [57.3 kB]
-Del libqt6core6t64 6.8.2+dfsg-9+deb13u2 [1843 kB]
-Del firefox-esr-l10n-zh-cn 153.5.0esr-1~deb13u1 [437 kB]
-Del libmp3lame0 3.100-6+b3 [363 kB]
-Del liblab-gamut1 2.42.4-3 [198 kB]
-Del libjq1 1.7.1-6+deb13u4 [168 kB]
-Del libavc1394-0 0.5.4-5+b2 [18.2 kB]
-Del libxcb-shm0 1.17.0-2+b1 [105 kB]
-Del kwallet6 6.13.0-1 [200 kB]
-Del qml6-module-org-kde-syntaxhighlighting 6.13.0-1 [30.6 kB]
-Del plasma-desktop-data 4:6.3.6-1 [10.8 MB]
-Del libinih1 59-1 [6808 B]
-Del libvdpau1 1.5-3+b1 [27.2 kB]
-Del libqt5dbus5t64 5.15.15+dfsg-6+deb13u1 [218 kB]
-Del xfonts-base 1:1.0.5+nmu1 [5895 kB]
-Del libime-data-language-model 1.1.10+dict20250327-1 [20.0 MB]
-Del liblerc4 4.0.0+ds-5 [183 kB]
-Del gtk2-engines-pixbuf 2.24.33-7 [24.2 kB]
-Del libxft2 2.3.6-1+b4 [54.5 kB]
-Del qml-module-qtquick2 5.15.15+dfsg-3 [37.0 kB]
-Del par2 0.8.1-3 [108 kB]
-Del libqt6webenginecore6 6.8.2+dfsg-4 [58.9 MB]
-Del libxrandr2 2:1.5.4-1+b3 [36.3 kB]
-Del fcitx5-modules 5.1.12-2 [941 kB]
-Del libokular6core3 4:25.04.2-1+deb13u1 [426 kB]
-Del libcaca0 0.99.beta20-5+deb13u1 [202 kB]
-Del qml6-module-org-kde-kirigamiaddons-datetime 1.7.0-1 [81.1 kB]
-Del breeze-gtk-theme 6.3.4-1 [183 kB]
-Del libkf6archive-data 6.13.0-2 [66.0 kB]
-Del powerdevil 4:6.3.6-1 [322 kB]
-Del libpulsedsp 17.0+dfsg1-2+b1 [37.9 kB]
-Del systemsettings 4:6.3.4-2 [347 kB]
-Del fastfetch 2.40.4+dfsg-1 [543 kB]
-Del libgusb2 0.4.9-1+b1 [37.6 kB]
-Del kwin-common 4:6.3.6-1 [965 kB]
-Del hunspell-en-us 1:2020.12.07-4 [558 kB]
-Del qml6-module-org-kde-graphicaleffects 6.13.0-1 [30.7 kB]
-Del libgraphite2-3 1.3.14-2+deb13u1 [75.2 kB]
-Del libnotify4 0.8.6-1 [26.6 kB]
-Del libboost-program-options1.83.0 1.83.0-4.2 [347 kB]
-Del pipewire-alsa 1.4.2-1 [61.7 kB]
-Del libc-dev-bin 2.41-12+deb13u4 [60.0 kB]
-Del libsoxr0 0.1.3-4+b2 [81.0 kB]
-Del mesa-utils-bin 9.0.0-2+b2 [158 kB]
-Del libpackagekitqt6-1 1.1.2-1+b1 [101 kB]
-Del libqt6dbus6 6.8.2+dfsg-9+deb13u2 [266 kB]
-Del libfakeroot 1.37.1.1-1 [29.6 kB]
-Del libprotobuf32t64 3.21.12-11+deb13u1 [981 kB]
-Del dns-root-data 2025080400~deb13u1 [5948 B]
-Del libquadmath0 14.2.0-19 [145 kB]
-Del libqt5widgets5t64 5.15.15+dfsg-6+deb13u1 [2396 kB]
-Del libkf6newstuffcore6 6.13.0-1 [280 kB]
-Del libplasmaactivities6 6.3.4-1 [77.6 kB]
-Del gstreamer1.0-plugins-base 1.26.2-1+deb13u2 [774 kB]
-Del libkf6bookmarks6 6.13.0-1 [44.3 kB]
-Del libsignon-plugins-common1 8.61+git20231015.c8ad982-7 [23.3 kB]
-Del libgs10-common 10.05.1~dfsg-1+deb13u3 [479 kB]
-Del libqt6webchannelquick6 6.8.2-2 [18.6 kB]
-Del linux-libc-dev 6.12.113-1 [3021 kB]
-Del libkf6filemetadata-bin 6.13.0-1 [117 kB]
-Del fonts-noto 20201225-2 [16.7 kB]
-Del plasma-activities-bin 6.3.4-1 [17.9 kB]
-Del xserver-xorg-video-radeon 1:22.0.0-1 [493 kB]
-Del libxcb-damage0 1.17.0-2+b1 [105 kB]
-Del libopus0 1.5.2-2 [2852 kB]
-Del libkf6networkmanagerqt6 6.13.0-1 [365 kB]
-Del libkf6idletime6 6.13.0-1 [59.5 kB]
-Del libsecret-common 0.21.7-1 [27.9 kB]
-Del libexiv2-28 0.28.5+dfsg-1 [923 kB]
-Del modemmanager 1.24.0-1+deb13u1 [1061 kB]
-Del libpoppler-qt6-3t64 25.03.0-5+deb13u4 [175 kB]
-Del plymouth-themes 24.004.60-5 [787 kB]
-Del libzxing3 2.3.0-4 [606 kB]
-Del libpaper2 2.2.5-0.3+b2 [16.7 kB]
-Del libkf6modemmanagerqt6 6.13.0-1 [197 kB]
-Del xwaylandvideobridge 0.4.0-2+b1 [55.2 kB]
-Del qml6-module-org-kde-breeze 6.3.5-1 [371 kB]
-Del libkf5guiaddons5 5.116.0-2 [84.8 kB]
-Del libldap2 2.6.10+dfsg-1 [194 kB]
-Del linux-image-6.12.113+deb13-amd64 6.12.113-1 [108 MB]
-Del libvidstab1.1 1.1.0-2+b2 [38.9 kB]
-Del cups-client 2.4.10-3+deb13u2 [164 kB]
-Del qml6-module-org-kde-networkmanager 6.13.0-1 [11.6 kB]
-Del libebook-1.2-21t64 3.56.2-0+deb13u1 [91.8 kB]
-Del libindi-data 1.9.9+dfsg-3 [46.4 kB]
-Del vdpau-driver-all 1.5-3+b1 [4704 B]
-Del libflac14 1.5.0+ds-2 [210 kB]
-Del libedataserver-1.2-27t64 3.56.2-0+deb13u1 [275 kB]
-Del firmware-linux 20250410-2 [71.8 kB]
-Del libkf5kiofilewidgets5 5.116.0-1 [301 kB]
-Del libqt6sql6 6.8.2+dfsg-9+deb13u2 [145 kB]
-Del uuid-runtime 2.41.5-0+deb13u1 [60.7 kB]
-Del libpam-kwallet5 6.3.4-1 [13.2 kB]
-Del qml-module-org-kde-kirigami2 5.116.0-1 [335 kB]
-Del libgtk-3-common 3.24.49-3 [4908 kB]
-Del aspell 0.60.8.1-4 [275 kB]
-Del libgirepository-1.0-1 1.84.0-1 [116 kB]
-Del gwenview 4:25.04.3-1 [1178 kB]
-Del kwalletmanager 4:25.04.2-1 [1225 kB]
-Del libnfnetlink0 1.0.2-3 [14.4 kB]
-Del dbus-user-session 1.16.2-2 [52.1 kB]
-Del libkf6windowsystem-data 6.13.0-2 [13.7 kB]
-Del libkf6itemviews-data 6.13.0-1 [15.4 kB]
-Del libatk1.0-0t64 2.56.2-1+deb13u2 [52.0 kB]
-Del libkf6purpose-bin 6.13.0-1 [171 kB]
-Del libsharpyuv0 1.5.0-0.1 [116 kB]
-Del libprotobuf-lite32t64 3.21.12-11+deb13u1 [275 kB]
-Del dpkg-dev 1.22.22 [1337 kB]
-Del libbabeltrace1 1.5.11-4+b2 [176 kB]
-Del libkf6codecs6 6.13.0-1 [92.7 kB]
-Del libplist-2.0-4 2.6.0-2+b1 [49.5 kB]
-Del libkf6purpose6 6.13.0-1 [50.4 kB]
-Del p7zip-full 16.02+transitional.1 [2560 B]
-Del libtommath1 1.3.0-1 [64.3 kB]
-Del libkf5configgui5 5.116.0-1 [52.4 kB]
-Del libaccountsservice0 23.13.9-7 [56.7 kB]
-Del xserver-xorg-input-wacom 1.2.3-1 [379 kB]
-Del libinput-bin 1.28.1-1+deb13u1 [26.8 kB]
-Del libpulse0 17.0+dfsg1-2+b1 [276 kB]
-Del libmpcdec6 2:0.1~r495-3 [32.7 kB]
-Del libqt6webview6 6.8.2-2 [21.7 kB]
-Del bup 0.33.7-1 [165 kB]
-Del libkf6unitconversion6 6.13.0-1 [93.4 kB]
-Del libkf6wallet6 6.13.0-1 [50.4 kB]
-Del libgpgme11t64 1.24.2-3 [346 kB]
-Del libxcb-shape0 1.17.0-2+b1 [106 kB]
-Del liblapack3 3.12.1-6 [2447 kB]
-Del x11-xkb-utils 7.7+9 [159 kB]
-Del libkf6coreaddons-data 6.13.0-1 [134 kB]
-Del firmware-ast 20140808-10 [9040 B]
-Del libzvbi-common 0.2.44-1 [71.4 kB]
-Del libyuv0 0.0.1904.20250204-1 [174 kB]
-Del libkf6notifyconfig-data 6.13.0-1 [29.2 kB]
-Del firmware-libertas 20250410-2 [3623 kB]
-Del libsnappy1v5 1.2.2-1 [29.3 kB]
-Del libqt6quicktemplates2-6 6.8.2+dfsg-7 [598 kB]
-Del libjaylink0 0.4.0-1 [23.5 kB]
-Del libopengl0 1.7.0-1+b2 [30.9 kB]
-Del libkimageannotator-qt6-0 0.7.1-1+b2 [348 kB]
-Del libopenjp2-7 2.5.3-2.1~deb13u2 [205 kB]
-Del libgdk-pixbuf-2.0-0 2.42.12+dfsg-4+deb13u1 [141 kB]
-Del g++-14-x86-64-linux-gnu 14.2.0-19 [12.1 MB]
-Del libkf6konq7 4:25.04.0-1 [127 kB]
-Del qml-module-qtquick-controls2 5.15.15+dfsg-2 [905 kB]
-Del libdaemon0 0.14-7.1+b3 [13.0 kB]
-Del libsodium23 1.0.18-1+deb13u1 [165 kB]
-Del firmware-amd-graphics 20250410-2 [15.1 MB]
-Del libkscreen-bin 4:6.3.4-1 [156 kB]
-Del fonts-noto-cjk-extra 1:20240730+repack1-1 [134 MB]
-Del libwayland-client0 1.23.1-3 [26.8 kB]
-Del libvulkan1 1.4.309.0-1 [130 kB]
-Del librsvg2-common 2.60.0+dfsg-1+deb13u1 [154 kB]
-Del libkf6package-data 6.13.0-1 [63.9 kB]
-Del libkf5archive5 5.116.0-1 [91.9 kB]
-Del libdrm-nouveau2 2.4.124-2 [19.9 kB]
-Del libqt6quickcontrols2-6 6.8.2+dfsg-7 [1755 kB]
-Del libqt5waylandcompositor5 5.15.15-3 [361 kB]
-Del libcurl3t64-gnutls 8.14.1-2+deb13u7 [385 kB]
-Del libfreeaptx0 0.2.2-1 [12.3 kB]
-Del python3-talloc 2:2.4.3+samba4.22.11+dfsg-0+deb13u1 [53.3 kB]
-Del ghostscript 10.05.1~dfsg-1+deb13u3 [50.6 kB]
-Del perl-modules-5.40 5.40.1-6+deb13u1 [3014 kB]
-Del gpg-agent 2.4.7-21+deb13u1+b5 [271 kB]
-Del plasma-desktop-doc 4:6.3.6-1 [4802 kB]
-Del qml6-module-org-kde-kquickcontrols 6.13.0-1 [48.7 kB]
-Del xcvt 0.1.3-1 [7260 B]
-Del libarchive13t64 3.7.4-4+deb13u1 [350 kB]
-Del libkdecorations3private2 4:6.3.4-1 [11.5 kB]
-Del libnet-ssleay-perl 1.94-3 [339 kB]
-Del libfile-basedir-perl 0.09-2 [15.1 kB]
-Del libunbound8 1.26.1-0+deb13u1 [643 kB]
-Del pulseaudio-utils 17.0+dfsg1-2+b1 [88.9 kB]
-Del firefox-esr 153.5.0esr-1~deb13u1 [79.8 MB]
+### 磁盘占用
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/root       145G   32G  113G  22% /
+
+### 日志中的错误行
+2230:  libenchant-2-2 libencode-locale-perl libepoxy0 libepub0 liberror-perl
+2245:  libgnutls30t64 libgomp1 libgpg-error-l10n libgpg-error0 libgpgme11t64
+2689:  libenchant-2-2 libencode-locale-perl libepoxy0 libepub0 liberror-perl
+2704:  libgnutls-dane0t64 libgnutls30t64 libgomp1 libgpg-error-l10n libgpg-error0
+3176:Get:185 https://deb.debian.org/debian trixie/main amd64 libgpg-error0 amd64 1.51-4 [82.1 kB]
+3565:Get:574 https://deb.debian.org/debian trixie/main amd64 liberror-perl all 0.17030-1 [26.9 kB]
+4397:Get:1406 https://deb.debian.org/debian trixie/main amd64 libgpg-error-l10n all 1.51-4 [114 kB]
+5084:Selecting previously unselected package libgpg-error0:amd64.
+5085:Preparing to unpack .../141-libgpg-error0_1.51-4_amd64.deb ...
+5086:Unpacking libgpg-error0:amd64 (1.51-4) ...
+6278:Selecting previously unselected package liberror-perl.
+6279:Preparing to unpack .../0203-liberror-perl_0.17030-1_all.deb ...
+6280:Unpacking liberror-perl (0.17030-1) ...
+8879:Selecting previously unselected package libgpg-error-l10n.
+8880:Preparing to unpack .../1067-libgpg-error-l10n_1.51-4_all.deb ...
+8881:Unpacking libgpg-error-l10n (1.51-4) ...
+9761:Setting up libgpg-error0:amd64 (1.51-4) ...
+10250:Setting up libgpg-error-l10n (1.51-4) ...
+10658:Setting up liberror-perl (0.17030-1) ...
+11942:[0;1;31mFailed to connect to system scope bus via local transport: Host is down[0m
+12074:Failed to open connection to "system" message bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+13650:Failed to run 'apparmor_parser -rWT /etc/apparmor.d/lxc-containers'. You will probably need to run it by hand at some point.
+14549:!!! The following error/warning messages can be ignored !!!
+14616:!!! The above error/warning messages can be ignored !!!
+
+### 日志首 60 行
+
+[1;36m[TinyOS][0m 0/7 环境检查
+
+[1;36m[TinyOS][0m 1/7 安装构建依赖
+
+[1;36m[TinyOS][0m 2/7 同步构建配置 -> /root/tinyos-build
+
+[1;36m[TinyOS][0m     生成品牌视觉素材（tools/gen-assets.py）
+[TinyOS] 生成品牌视觉素材 -> /root/tinyos-build/config/includes.chroot/usr/share
+  [生成] /root/tinyos-build/config/includes.chroot/usr/share/wallpapers/TinyOS-Dark/contents/images/1920x1080.png
+  [生成] /root/tinyos-build/config/includes.chroot/usr/share/wallpapers/TinyOS-Light/contents/images/1920x1080.png
+  [生成] /root/tinyos-build/config/includes.chroot/usr/share/wallpapers/TinyOS-Aurora/contents/images/1920x1080.png
+  [生成] /root/tinyos-build/config/includes.chroot/usr/share/plymouth/themes/tinyos/logo.png
+  [生成] /root/tinyos-build/config/includes.chroot/usr/share/plymouth/themes/tinyos/bar_fg.png
+  [生成] /root/tinyos-build/config/includes.chroot/usr/share/plymouth/themes/tinyos/bar_bg.png
+[TinyOS] 视觉素材生成完成
+
+[1;36m[TinyOS][0m     已生成 GRUB 主题背景
+
+[1;36m[TinyOS][0m 3/7 lb config（发行版: trixie amd64，口味: whuang，构建源: https://deb.debian.org/debian/）
+[2026-10-20 08:31:00] lb config noauto --distribution trixie --architecture amd64 --archive-areas main contrib non-free non-free-firmware --binary-image iso-hybrid --apt-indices false --apt-recommends true --backports true --security true --updates true --linux-flavours amd64 --linux-packages linux-image --memtest none --bootappend-live boot=live components quiet splash locales=zh_CN.UTF-8 keyboard-layouts=us timezone=Asia/Shanghai --bootappend-live-failsafe boot=live components memtest noapic noapm nodma nomce nolapic nomodeset --iso-volume TinyOS_whuang_1.0.0_amd64 --iso-application TinyOS 1.0.0 (whuang edition) --iso-publisher TinyOS Project; https://tiny.hayoko.cn; hayoko@hayoko.cn --mirror-bootstrap https://deb.debian.org/debian/ --parent-mirror-bootstrap https://deb.debian.org/debian/ --mirror-binary https://deb.debian.org/debian/ --parent-mirror-binary https://deb.debian.org/debian/ --mirror-binary-security https://security.debian.org/debian-security/ --parent-mirror-binary-security https://security.debian.org/debian-security/ --checksums sha256 --compression xz
+P: Updating config tree for a debian/trixie/amd64 system
+P: Symlinking hooks...
+
+[1;36m[TinyOS][0m 4/7 可选组件
+
+[1;36m[TinyOS][0m 5/7 lb build（首次构建需下载 2-4GB 软件包，Waydroid 安卓镜像另需下载约 800MB）
+[2026-10-20 08:31:00] lb build 
+P: live-build 20250505+deb13u1
+P: Building for a debian/trixie/amd64 system
+[2026-10-20 08:31:00] lb bootstrap 
+P: Setting up clean exit handler
+[2026-10-20 08:31:01] lb bootstrap_cache restore
+[2026-10-20 08:31:01] lb bootstrap_debootstrap 
+P: Begin bootstrapping system...
+P: If the following stage fails, the most likely cause of the problem is with your mirror configuration or a caching proxy.
+P: Running debootstrap (download-only)...
+I: Retrieving InRelease 
+I: Checking Release signature
+I: Valid Release signature
+I: Retrieving Packages 
+I: Validating Packages 
+I: Retrieving Packages 
+I: Validating Packages 
+I: Retrieving Packages 
+I: Validating Packages 
+I: Retrieving Packages 
+I: Validating Packages 
+I: Resolving dependencies of required packages...
+I: Resolving dependencies of base packages...
+I: Checking component main on https://deb.debian.org/debian...
+I: Retrieving adduser 3.152
+I: Validating adduser 3.152
+I: Retrieving apt 3.0.3
+I: Validating apt 3.0.3
+I: Retrieving apt-utils 3.0.3
+I: Validating apt-utils 3.0.3
+I: Retrieving base-files 13.8+deb13u7
+I: Validating base-files 13.8+deb13u7
+I: Retrieving base-passwd 3.6.7
+
+### 日志末 400 行
+Get:1 https://deb.debian.org/debian trixie/main amd64 isolinux all 3:6.04~git20190206.bf6db5b4+dfsg1-3.1 [86.5 kB]
+Get:2 https://deb.debian.org/debian trixie/main amd64 syslinux-common all 3:6.04~git20190206.bf6db5b4+dfsg1-3.1 [1212 kB]
+Fetched 1299 kB in 0s (4562 kB/s)
+Selecting previously unselected package isolinux.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 259896 files and directories currently installed.)
+Preparing to unpack .../isolinux_3%3a6.04~git20190206.bf6db5b4+dfsg1-3.1_all.deb ...
+Unpacking isolinux (3:6.04~git20190206.bf6db5b4+dfsg1-3.1) ...
+Selecting previously unselected package syslinux-common.
+Preparing to unpack .../syslinux-common_3%3a6.04~git20190206.bf6db5b4+dfsg1-3.1_all.deb ...
+Unpacking syslinux-common (3:6.04~git20190206.bf6db5b4+dfsg1-3.1) ...
+Setting up isolinux (3:6.04~git20190206.bf6db5b4+dfsg1-3.1) ...
+Setting up syslinux-common (3:6.04~git20190206.bf6db5b4+dfsg1-3.1) ...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  isolinux* syslinux-common*
+0 upgraded, 0 newly installed, 2 to remove and 0 not upgraded.
+After this operation, 3741 kB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 260128 files and directories currently installed.)
+Removing isolinux (3:6.04~git20190206.bf6db5b4+dfsg1-3.1) ...
+Removing syslinux-common (3:6.04~git20190206.bf6db5b4+dfsg1-3.1) ...
+[2026-10-20 09:36:00] lb binary_disk 
+P: Begin installing disk information...
+[2026-10-20 09:36:00] lb binary_loadlin 
+[2026-10-20 09:36:00] lb binary_win32-loader 
+[2026-10-20 09:36:00] lb binary_includes 
+P: Begin copying binary includes...
+241 blocks
+[2026-10-20 09:36:00] lb binary_grub-efi 
+P: Begin preparing Grub based EFI support...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  grub-efi-amd64-unsigned grub-efi-ia32-unsigned libefiboot1t64 libefivar1t64
+Suggested packages:
+  multiboot-doc grub-emu xorriso desktop-base console-setup floppyd
+Recommended packages:
+  os-prober grub-efi-amd64-signed efibootmgr
+The following NEW packages will be installed:
+  grub-common grub-efi-amd64-bin grub-efi-amd64-unsigned grub-efi-ia32-bin
+  grub-efi-ia32-unsigned libefiboot1t64 libefivar1t64 mtools
+0 upgraded, 8 newly installed, 0 to remove and 0 not upgraded.
+Need to get 7630 kB of archives.
+After this operation, 42.0 MB of additional disk space will be used.
+Get:1 https://deb.debian.org/debian trixie/main amd64 libefivar1t64 amd64 38-3.1+b1 [58.5 kB]
+Get:2 https://deb.debian.org/debian trixie/main amd64 libefiboot1t64 amd64 38-3.1+b1 [43.9 kB]
+Get:3 https://deb.debian.org/debian trixie/main amd64 grub-common amd64 2.12-9+deb13u2 [2899 kB]
+Get:4 https://deb.debian.org/debian trixie/main amd64 grub-efi-amd64-unsigned amd64 2.12-9+deb13u2 [1362 kB]
+Get:5 https://deb.debian.org/debian trixie/main amd64 grub-efi-amd64-bin amd64 2.12-9+deb13u2 [1053 kB]
+Get:6 https://deb.debian.org/debian trixie/main amd64 grub-efi-ia32-unsigned amd64 2.12-9+deb13u2 [1324 kB]
+Get:7 https://deb.debian.org/debian trixie/main amd64 grub-efi-ia32-bin amd64 2.12-9+deb13u2 [691 kB]
+Get:8 https://deb.debian.org/debian trixie/main amd64 mtools amd64 4.0.48-1 [198 kB]
+Fetched 7630 kB in 0s (23.8 MB/s)
+Selecting previously unselected package libefivar1t64:amd64.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 259895 files and directories currently installed.)
+Preparing to unpack .../0-libefivar1t64_38-3.1+b1_amd64.deb ...
+Unpacking libefivar1t64:amd64 (38-3.1+b1) ...
+Selecting previously unselected package libefiboot1t64:amd64.
+Preparing to unpack .../1-libefiboot1t64_38-3.1+b1_amd64.deb ...
+Unpacking libefiboot1t64:amd64 (38-3.1+b1) ...
+Selecting previously unselected package grub-common.
+Preparing to unpack .../2-grub-common_2.12-9+deb13u2_amd64.deb ...
+Unpacking grub-common (2.12-9+deb13u2) ...
+Selecting previously unselected package grub-efi-amd64-unsigned.
+Preparing to unpack .../3-grub-efi-amd64-unsigned_2.12-9+deb13u2_amd64.deb ...
+Unpacking grub-efi-amd64-unsigned (2.12-9+deb13u2) ...
+Selecting previously unselected package grub-efi-amd64-bin.
+Preparing to unpack .../4-grub-efi-amd64-bin_2.12-9+deb13u2_amd64.deb ...
+Unpacking grub-efi-amd64-bin (2.12-9+deb13u2) ...
+Selecting previously unselected package grub-efi-ia32-unsigned.
+Preparing to unpack .../5-grub-efi-ia32-unsigned_2.12-9+deb13u2_amd64.deb ...
+Unpacking grub-efi-ia32-unsigned (2.12-9+deb13u2) ...
+Selecting previously unselected package grub-efi-ia32-bin.
+Preparing to unpack .../6-grub-efi-ia32-bin_2.12-9+deb13u2_amd64.deb ...
+Unpacking grub-efi-ia32-bin (2.12-9+deb13u2) ...
+Selecting previously unselected package mtools.
+Preparing to unpack .../7-mtools_4.0.48-1_amd64.deb ...
+Unpacking mtools (4.0.48-1) ...
+Setting up mtools (4.0.48-1) ...
+Setting up libefivar1t64:amd64 (38-3.1+b1) ...
+Setting up libefiboot1t64:amd64 (38-3.1+b1) ...
+Setting up grub-common (2.12-9+deb13u2) ...
+Created symlink '/etc/systemd/system/multi-user.target.wants/grub-common.service' → '/usr/lib/systemd/system/grub-common.service'.
+Created symlink '/etc/systemd/system/suspend.target.wants/grub-common.service' → '/usr/lib/systemd/system/grub-common.service'.
+Created symlink '/etc/systemd/system/hibernate.target.wants/grub-common.service' → '/usr/lib/systemd/system/grub-common.service'.
+Created symlink '/etc/systemd/system/hybrid-sleep.target.wants/grub-common.service' → '/usr/lib/systemd/system/grub-common.service'.
+Created symlink '/etc/systemd/system/suspend-then-hibernate.target.wants/grub-common.service' → '/usr/lib/systemd/system/grub-common.service'.
+Setting up grub-efi-amd64-unsigned (2.12-9+deb13u2) ...
+Setting up grub-efi-ia32-unsigned (2.12-9+deb13u2) ...
+Setting up grub-efi-ia32-bin (2.12-9+deb13u2) ...
+Setting up grub-efi-amd64-bin (2.12-9+deb13u2) ...
+Processing triggers for man-db (2.13.1-1) ...
+Processing triggers for install-info (7.1.1-1+b1) ...
+Processing triggers for libc-bin (2.41-12+deb13u4) ...
+!!! The following error/warning messages can be ignored !!!
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  grub2-common mokutil shim-helpers-amd64-signed shim-signed-common
+  shim-unsigned
+The following NEW packages will be installed:
+  grub2-common mokutil shim-helpers-amd64-signed shim-signed
+  shim-signed-common shim-unsigned
+0 upgraded, 6 newly installed, 0 to remove and 0 not upgraded.
+Need to get 1785 kB of archives.
+After this operation, 5695 kB of additional disk space will be used.
+Get:1 https://deb.debian.org/debian trixie/main amd64 mokutil amd64 0.7.2-1 [26.7 kB]
+Get:2 https://deb.debian.org/debian trixie/main amd64 shim-signed-common all 1.51~1+deb13u1+16.1-2~deb13u1 [15.9 kB]
+Get:3 https://deb.debian.org/debian trixie/main amd64 shim-unsigned amd64 16.1-2~deb13u1 [453 kB]
+Get:4 https://deb.debian.org/debian trixie/main amd64 shim-helpers-amd64-signed amd64 1+16.1+2~deb13u1 [301 kB]
+Get:5 https://deb.debian.org/debian trixie/main amd64 grub2-common amd64 2.12-9+deb13u2 [641 kB]
+Get:6 https://deb.debian.org/debian trixie/main amd64 shim-signed amd64 1.51~1+deb13u1+16.1-2~deb13u1 [347 kB]
+Preconfiguring packages ...
+Fetched 1785 kB in 0s (6321 kB/s)
+Selecting previously unselected package mokutil.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 260732 files and directories currently installed.)
+Preparing to unpack .../0-mokutil_0.7.2-1_amd64.deb ...
+Unpacking mokutil (0.7.2-1) ...
+Selecting previously unselected package shim-signed-common.
+Preparing to unpack .../1-shim-signed-common_1.51~1+deb13u1+16.1-2~deb13u1_all.deb ...
+Unpacking shim-signed-common (1.51~1+deb13u1+16.1-2~deb13u1) ...
+Selecting previously unselected package shim-unsigned:amd64.
+Preparing to unpack .../2-shim-unsigned_16.1-2~deb13u1_amd64.deb ...
+Unpacking shim-unsigned:amd64 (16.1-2~deb13u1) ...
+Selecting previously unselected package shim-helpers-amd64-signed.
+Preparing to unpack .../3-shim-helpers-amd64-signed_1+16.1+2~deb13u1_amd64.deb ...
+Unpacking shim-helpers-amd64-signed (1+16.1+2~deb13u1) ...
+Selecting previously unselected package grub2-common.
+Preparing to unpack .../4-grub2-common_2.12-9+deb13u2_amd64.deb ...
+Unpacking grub2-common (2.12-9+deb13u2) ...
+Selecting previously unselected package shim-signed:amd64.
+Preparing to unpack .../5-shim-signed_1.51~1+deb13u1+16.1-2~deb13u1_amd64.deb ...
+shim-signed: checking if we can safely install /usr/lib/shim/shimx64.efi.signed
+  EFI variables are not supported on this system; assuming shim installation is safe.
+Unpacking shim-signed:amd64 (1.51~1+deb13u1+16.1-2~deb13u1) ...
+Setting up mokutil (0.7.2-1) ...
+Setting up grub2-common (2.12-9+deb13u2) ...
+Setting up shim-signed-common (1.51~1+deb13u1+16.1-2~deb13u1) ...
+No DKMS packages installed: not changing Secure Boot validation state.
+Setting up shim-unsigned:amd64 (16.1-2~deb13u1) ...
+Setting up shim-helpers-amd64-signed (1+16.1+2~deb13u1) ...
+Setting up shim-signed:amd64 (1.51~1+deb13u1+16.1-2~deb13u1) ...
+No DKMS packages installed: not changing Secure Boot validation state.
+Processing triggers for man-db (2.13.1-1) ...
+Processing triggers for install-info (7.1.1-1+b1) ...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following NEW packages will be installed:
+  grub-efi-amd64-signed
+0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.
+Need to get 1363 kB of archives.
+After this operation, 9720 kB of additional disk space will be used.
+Get:1 https://deb.debian.org/debian trixie/main amd64 grub-efi-amd64-signed amd64 1+2.12+9+deb13u2 [1363 kB]
+Fetched 1363 kB in 0s (6320 kB/s)
+Selecting previously unselected package grub-efi-amd64-signed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 260788 files and directories currently installed.)
+Preparing to unpack .../grub-efi-amd64-signed_1+2.12+9+deb13u2_amd64.deb ...
+Unpacking grub-efi-amd64-signed (1+2.12+9+deb13u2) ...
+Setting up grub-efi-amd64-signed (1+2.12+9+deb13u2) ...
+!!! The above error/warning messages can be ignored !!!
+P: UEFI Secure Boot support enabled.
+mkfs.fat 4.2 (2021-01-31)
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  grub-common* grub-efi-amd64-bin* grub-efi-amd64-signed*
+  grub-efi-amd64-unsigned* grub-efi-ia32-bin* grub-efi-ia32-unsigned*
+  grub2-common* libefiboot1t64* libefivar1t64* mokutil* mtools*
+  shim-helpers-amd64-signed* shim-signed* shim-signed-common* shim-unsigned*
+WARNING: The following essential packages will be removed.
+This should NOT be done unless you know exactly what you are doing!
+  grub-efi-amd64-signed grub-common (due to grub-efi-amd64-signed)
+0 upgraded, 0 newly installed, 15 to remove and 0 not upgraded.
+After this operation, 57.4 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 260798 files and directories currently installed.)
+Removing shim-signed:amd64 (1.51~1+deb13u1+16.1-2~deb13u1) ...
+No DKMS packages installed: not changing Secure Boot validation state.
+Removing grub2-common (2.12-9+deb13u2) ...
+Removing grub-efi-ia32-bin (2.12-9+deb13u2) ...
+Removing grub-efi-ia32-unsigned (2.12-9+deb13u2) ...
+Removing grub-efi-amd64-bin (2.12-9+deb13u2) ...
+dpkg: warning: overriding problem because --force enabled:
+dpkg: warning: this is a protected package; it should not be removed
+Removing grub-efi-amd64-signed (1+2.12+9+deb13u2) ...
+Removing grub-efi-amd64-unsigned (2.12-9+deb13u2) ...
+Removing shim-signed-common (1.51~1+deb13u1+16.1-2~deb13u1) ...
+Removing mokutil (0.7.2-1) ...
+Removing mtools (4.0.48-1) ...
+Removing shim-helpers-amd64-signed (1+16.1+2~deb13u1) ...
+Removing shim-unsigned:amd64 (16.1-2~deb13u1) ...
+Removing grub-common (2.12-9+deb13u2) ...
+Removing libefiboot1t64:amd64 (38-3.1+b1) ...
+Removing libefivar1t64:amd64 (38-3.1+b1) ...
+Processing triggers for man-db (2.13.1-1) ...
+Processing triggers for install-info (7.1.1-1+b1) ...
+Processing triggers for libc-bin (2.41-12+deb13u4) ...
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 259840 files and directories currently installed.)
+Purging configuration files for mtools (4.0.48-1) ...
+Purging configuration files for grub2-common (2.12-9+deb13u2) ...
+Purging configuration files for shim-signed:amd64 (1.51~1+deb13u1+16.1-2~deb13u1) ...
+Purging configuration files for grub-common (2.12-9+deb13u2) ...
+Purging configuration files for shim-signed-common (1.51~1+deb13u1+16.1-2~deb13u1) ...
+Purging configuration files for shim-helpers-amd64-signed (1+16.1+2~deb13u1) ...
+Purging configuration files for grub-efi-amd64-bin (2.12-9+deb13u2) ...
+[2026-10-20 09:36:11] lb binary_bootloader_splash 
+P: Begin preparing the bootloader splash image...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following NEW packages will be installed:
+  librsvg2-bin
+0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.
+Need to get 1955 kB of archives.
+After this operation, 7040 kB of additional disk space will be used.
+Get:1 http://security.debian.org trixie-security/main amd64 librsvg2-bin amd64 2.60.0+dfsg-1+deb13u1 [1955 kB]
+Fetched 1955 kB in 0s (9399 kB/s)
+Selecting previously unselected package librsvg2-bin.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 259827 files and directories currently installed.)
+Preparing to unpack .../librsvg2-bin_2.60.0+dfsg-1+deb13u1_amd64.deb ...
+Unpacking librsvg2-bin (2.60.0+dfsg-1+deb13u1) ...
+Setting up librsvg2-bin (2.60.0+dfsg-1+deb13u1) ...
+Processing triggers for man-db (2.13.1-1) ...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  librsvg2-bin*
+0 upgraded, 0 newly installed, 1 to remove and 0 not upgraded.
+After this operation, 7040 kB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 259834 files and directories currently installed.)
+Removing librsvg2-bin (2.60.0+dfsg-1+deb13u1) ...
+Processing triggers for man-db (2.13.1-1) ...
+[2026-10-20 09:36:17] lb binary_hooks 
+P: Begin executing hooks...
+P: Executing hook config/hooks/live/0010-grub-branding.hook.binary...
+[TinyOS] GRUB 菜单品牌化
+[TinyOS] GRUB 菜单品牌化完成
+[2026-10-20 09:36:17] lb binary_checksums 
+P: Begin creating binary sha256sum.txt...
+[2026-10-20 09:36:19] lb binary_iso 
+P: Begin building binary iso image...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  libburn4t64 libisoburn1t64 libisofs6t64 libjte2
+Suggested packages:
+  xorriso-tcltk jigit cdck
+Recommended packages:
+  syslinux-common
+The following NEW packages will be installed:
+  isolinux libburn4t64 libisoburn1t64 libisofs6t64 libjte2 xorriso
+0 upgraded, 6 newly installed, 0 to remove and 0 not upgraded.
+Need to get 1146 kB/1233 kB of archives.
+After this operation, 2693 kB of additional disk space will be used.
+Get:1 https://deb.debian.org/debian trixie/main amd64 libburn4t64 amd64 1.5.6-1.1+b1 [164 kB]
+Get:2 https://deb.debian.org/debian trixie/main amd64 libjte2 amd64 1.22-4+b2 [29.6 kB]
+Get:3 https://deb.debian.org/debian trixie/main amd64 libisofs6t64 amd64 1.5.6.pl01-1.1+b1 [219 kB]
+Get:4 https://deb.debian.org/debian trixie/main amd64 libisoburn1t64 amd64 1.5.6-1.2+b1 [410 kB]
+Get:5 https://deb.debian.org/debian trixie/main amd64 xorriso amd64 1.5.6-1.2+b1 [323 kB]
+Fetched 1146 kB in 0s (3565 kB/s)
+Selecting previously unselected package isolinux.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 259827 files and directories currently installed.)
+Preparing to unpack .../0-isolinux_3%3a6.04~git20190206.bf6db5b4+dfsg1-3.1_all.deb ...
+Unpacking isolinux (3:6.04~git20190206.bf6db5b4+dfsg1-3.1) ...
+Selecting previously unselected package libburn4t64:amd64.
+Preparing to unpack .../1-libburn4t64_1.5.6-1.1+b1_amd64.deb ...
+Unpacking libburn4t64:amd64 (1.5.6-1.1+b1) ...
+Selecting previously unselected package libjte2:amd64.
+Preparing to unpack .../2-libjte2_1.22-4+b2_amd64.deb ...
+Unpacking libjte2:amd64 (1.22-4+b2) ...
+Selecting previously unselected package libisofs6t64:amd64.
+Preparing to unpack .../3-libisofs6t64_1.5.6.pl01-1.1+b1_amd64.deb ...
+Unpacking libisofs6t64:amd64 (1.5.6.pl01-1.1+b1) ...
+Selecting previously unselected package libisoburn1t64:amd64.
+Preparing to unpack .../4-libisoburn1t64_1.5.6-1.2+b1_amd64.deb ...
+Unpacking libisoburn1t64:amd64 (1.5.6-1.2+b1) ...
+Selecting previously unselected package xorriso.
+Preparing to unpack .../5-xorriso_1.5.6-1.2+b1_amd64.deb ...
+Unpacking xorriso (1.5.6-1.2+b1) ...
+Setting up isolinux (3:6.04~git20190206.bf6db5b4+dfsg1-3.1) ...
+Setting up libjte2:amd64 (1.22-4+b2) ...
+Setting up libisofs6t64:amd64 (1.5.6.pl01-1.1+b1) ...
+Setting up libburn4t64:amd64 (1.5.6-1.1+b1) ...
+Setting up libisoburn1t64:amd64 (1.5.6-1.2+b1) ...
+Setting up xorriso (1.5.6-1.2+b1) ...
+Processing triggers for man-db (2.13.1-1) ...
+Processing triggers for install-info (7.1.1-1+b1) ...
+Processing triggers for libc-bin (2.41-12+deb13u4) ...
+xorriso 1.5.6 : RockRidge filesystem manipulator, libburnia project.
+
+xorriso : NOTE : Environment variable SOURCE_DATE_EPOCH encountered with value 1792485060
+Drive current: -outdev 'stdio:live-image-amd64.hybrid.iso'
+Media current: stdio file, overwriteable
+Media status : is blank
+Media summary: 0 sessions, 0 data blocks, 0 data,  101g free
+xorriso : NOTE : -as mkisofs: Ignored option '-cache-inodes'
+xorriso : WARNING : -volid text is too long for Joliet (25 > 16)
+xorriso : WARNING : -volid text does not comply to ISO 9660 / ECMA 119 rules
+Added to ISO image: directory '/'='/binary'
+xorriso : UPDATE :     310 files added in 1 seconds
+xorriso : UPDATE :     310 files added in 1 seconds
+xorriso : NOTE : Copying to System Area: 432 bytes from file '/usr/lib/ISOLINUX/isohdpfx.bin'
+libisofs: NOTE : Automatically adjusted MBR geometry to 1023/212/32
+libisofs: NOTE : Aligned image size to cylinder size by 948 blocks
+xorriso : UPDATE :  0.00% done
+xorriso : UPDATE :  52.20% done
+xorriso : UPDATE :  73.45% done
+xorriso : UPDATE :  83.90% done
+xorriso : UPDATE :  93.07% done
+ISO image produced: 1735008 sectors
+Written to medium : 1735008 sectors at LBA 0
+Writing to 'stdio:live-image-amd64.hybrid.iso' completed successfully.
+
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  isolinux* libburn4t64* libisoburn1t64* libisofs6t64* libjte2* xorriso*
+0 upgraded, 0 newly installed, 6 to remove and 0 not upgraded.
+After this operation, 2693 kB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 259907 files and directories currently installed.)
+Removing isolinux (3:6.04~git20190206.bf6db5b4+dfsg1-3.1) ...
+Removing xorriso (1.5.6-1.2+b1) ...
+Removing libisoburn1t64:amd64 (1.5.6-1.2+b1) ...
+Removing libburn4t64:amd64 (1.5.6-1.1+b1) ...
+Removing libisofs6t64:amd64 (1.5.6.pl01-1.1+b1) ...
+Removing libjte2:amd64 (1.22-4+b2) ...
+Processing triggers for man-db (2.13.1-1) ...
+Processing triggers for install-info (7.1.1-1+b1) ...
+Processing triggers for libc-bin (2.41-12+deb13u4) ...
+[2026-10-20 09:36:30] lb binary_onie 
+[2026-10-20 09:36:30] lb binary_netboot 
+[2026-10-20 09:36:30] lb binary_tar 
+[2026-10-20 09:36:30] lb binary_hdd 
+[2026-10-20 09:36:30] lb binary_zsync 
+[2026-10-20 09:36:30] lb chroot_prep remove dpkg tmpfs sysv-rc hosts resolv hostname apt
+[2026-10-20 09:36:30] lb chroot_apt remove
+P: Deconfiguring file /etc/apt/apt.conf
+[2026-10-20 09:36:30] lb chroot_hostname remove
+P: Deconfiguring file /etc/hostname
+P: Deconfiguring file /bin/hostname
+[2026-10-20 09:36:30] lb chroot_resolv remove
+P: Deconfiguring file /etc/resolv.conf
+[2026-10-20 09:36:30] lb chroot_hosts remove
+P: Deconfiguring file /etc/hosts
+[2026-10-20 09:36:30] lb chroot_sysv-rc remove
+P: Deconfiguring file /usr/sbin/policy-rc.d
+[2026-10-20 09:36:30] lb chroot_tmpfs remove
+[2026-10-20 09:36:30] lb chroot_dpkg remove
+P: Deconfiguring file /sbin/start-stop-daemon
+[2026-10-20 09:36:30] lb chroot_prep remove devpts proc selinuxfs sysfs
+[2026-10-20 09:36:30] lb chroot_sysfs remove
+P: Begin unmounting /sys...
+[2026-10-20 09:36:31] lb chroot_selinuxfs remove
+[2026-10-20 09:36:31] lb chroot_proc remove
+P: Begin unmounting /proc...
+[2026-10-20 09:36:31] lb chroot_devpts remove
+P: Begin unmounting /dev/pts...
+P: Binary stage completed
+P: Begin unmounting filesystems...
+P: Saving caches...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+[2026-10-20 09:36:31] lb source 
+P: Source stage disabled, skipping
+P: Build completed successfully
+
+[1;36m[TinyOS][0m 6/7 产出镜像
+
+[1;36m[TinyOS][0m 7/7 完成
+============================================================
+ TinyOS 1.0.0 (whuang) 构建成功
+ ISO    : /work/out/tinyos-1.0.0-whuang-amd64.iso
+ 大小   : 3.4G
+ SHA256 : /work/out/tinyos-1.0.0-whuang-amd64.iso.sha256
+============================================================
+ 写入 U 盘（Linux）: dd if=tinyos-1.0.0-whuang-amd64.iso.iso of=/dev/sdX bs=4M status=progress
+ 写入 U 盘（Windows）: 使用 Rufus，分区类型选 GPT（UEFI）
+ 直接测试（QEMU）  : qemu-system-x86_64 -m 4096 -enable-kvm \
+                       -device virtio-vga tinyos-1.0.0-whuang-amd64.iso.iso
+============================================================
