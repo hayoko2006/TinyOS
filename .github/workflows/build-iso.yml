@@ -183,13 +183,22 @@ jobs:
         run: |
           mkdir -p docs/evidence
           cp -f evidence/*.png evidence/*.log evidence/*.txt docs/evidence/ 2>/dev/null || true
-          # 无论失败在哪一步，都归档构建日志尾部与产物清单，便于无凭据排错
+          # 无论失败在哪一步，都归档构建日志的关键片段，便于无凭据排错
           {
             echo "### out/ 目录"
             ls -la out/ 2>/dev/null || echo "(out 不存在)"
             echo ""
-            echo "### out/build.log 尾部 200 行"
-            tail -n 200 out/build.log 2>/dev/null || echo "(无 out/build.log —— build.sh 可能未执行)"
+            echo "### 磁盘占用"
+            df -h / 2>/dev/null || true
+            echo ""
+            echo "### 日志中的错误行"
+            grep -nE '^E: |^E$|error|Error|ERROR|failed|Failed|Permission denied|No space|Killed|oom|Out of memory|not found|timed out' out/build.log 2>/dev/null | tail -80 || echo "(无 out/build.log)"
+            echo ""
+            echo "### 日志首 60 行"
+            head -60 out/build.log 2>/dev/null || echo "(无 out/build.log —— build.sh 可能未执行)"
+            echo ""
+            echo "### 日志末 400 行"
+            tail -400 out/build.log 2>/dev/null || true
           } > docs/evidence/build-tail.log
           grep -E 'usr/local/bin/|usr/share/plasma/look-and-feel/com\.tinyos|usr/share/plymouth/themes/tinyos|var/lib/waydroid/images|usr/share/wallpapers/TinyOS|usr/share/tinyos/' sq.list 2>/dev/null \
             | head -80 > docs/evidence/squashfs-keyfiles.txt || true
