@@ -31,6 +31,23 @@ log()  { printf '\n\033[1;36m[TinyOS]\033[0m %s\n' "$*"; }
 fail() { printf '\n\033[1;31m[TinyOS] 错误:\033[0m %s\n' "$*" >&2; exit 1; }
 
 # ----------------------------------------------------------------------------
+# 从脚本一开始就记录完整日志（含依赖安装、lb config 等早期阶段），
+# 并在任何一步失败时把日志尾部归档到仓库 docs/evidence/ —— 便于在无凭据
+# 环境下直接读到失败原因（此前只在 lb build 失败时才留日志，早期失败会丢证据）。
+EVIDENCE_DIR="${SCRIPT_DIR}/../docs/evidence"
+mkdir -p "${OUT_DIR}" "${EVIDENCE_DIR}"
+exec > >(tee "${OUT_DIR}/build.log") 2>&1
+
+save_failure_log() {
+    local code=$?
+    if [ "${code}" -ne 0 ]; then
+        sleep 1  # 等待 tee 落盘
+        tail -n 500 "${OUT_DIR}/build.log" > "${EVIDENCE_DIR}/build-tail.log" 2>/dev/null || true
+    fi
+}
+trap save_failure_log EXIT
+
+# ----------------------------------------------------------------------------
 log "0/7 环境检查"
 [ "$(id -u)" -eq 0 ] || fail "请以 root 运行本脚本（sudo ./build.sh）"
 grep -q 'trixie\|bookworm' /etc/os-release 2>/dev/null || \
@@ -110,7 +127,6 @@ lb config noauto \
     --architecture "${ARCH}" \
     --archive-areas "main contrib non-free non-free-firmware" \
     --binary-image iso-hybrid \
-    --bootloaders "grub-pc grub-efi" \
     --apt-indices false \
     --apt-recommends true \
     --backports true \
@@ -151,17 +167,7 @@ fi
 # ----------------------------------------------------------------------------
 log "5/7 lb build（首次构建需下载 2-4GB 软件包，Waydroid 安卓镜像另需下载约 800MB）"
 BUILD_LOG="${BUILD_DIR}/build-$(date +%Y%m%d-%H%M%S).log"
-
-# 失败时保留日志：产物目录一份，仓库 docs/evidence/ 一份（CI 的归档步骤会提交后者，
-# 便于在无凭据环境下排查失败原因）
-save_failure_log() {
-    mkdir -p "${OUT_DIR}" "${SCRIPT_DIR}/../docs/evidence"
-    cp -f "${BUILD_LOG}" "${OUT_DIR}/build.log" 2>/dev/null || true
-    tail -n 500 "${BUILD_LOG}" > "${SCRIPT_DIR}/../docs/evidence/build-tail.log" 2>/dev/null || true
-}
-trap 'save_failure_log' ERR
 lb build 2>&1 | tee "${BUILD_LOG}"
-trap - ERR
 
 # ----------------------------------------------------------------------------
 log "6/7 产出镜像"
@@ -172,8 +178,7 @@ FINAL_NAME="tinyos-${VERSION}-${EDITION}-${ARCH}.iso"
 mkdir -p "${OUT_DIR}"
 cp -f "${ISO}" "${OUT_DIR}/${FINAL_NAME}"
 ( cd "${OUT_DIR}" && sha256sum "${FINAL_NAME}" > "${FINAL_NAME}.sha256" )
-# 保留构建日志，便于排错与测试报告取证
-cp -f "${BUILD_LOG}" "${OUT_DIR}/build.log" 2>/dev/null || true
+# 注：完整构建日志已由脚本开头的 tee 持续写入 ${OUT_DIR}/build.log
 
 log "7/7 完成"
 cat <<EOF
