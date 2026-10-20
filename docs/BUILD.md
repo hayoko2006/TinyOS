@@ -147,7 +147,7 @@ sudo TINYOS_VERSION=1.1.0 TINYOS_MIRROR_BINARY=https://mirrors.tuna.tsinghua.edu
 | 窗口装饰/特效 | KWin（Breeze 装饰 + 模糊/背景对比等默认特效） | 配色方案自动重着色 |
 | 登录界面 | `usr/share/sddm/themes/tinyos`（构建钩子基于 breeze 重新品牌化） | 背景随方案同步 |
 | 开机动画 | `usr/share/plymouth/themes/tinyos` | 深空渐变 + 标识淡入 + 进度条 |
-| 启动菜单 | `includes.binary/boot/grub/themes/tinyos` + `0010-grub-branding.hook.binary` | GRUB 主题与菜单品牌化 |
+| 启动菜单 | `config/bootloaders/grub-pc/config.cfg`（超时/主题）+ `includes.binary/boot/grub/themes/tinyos` + `config/hooks/live/0010-grub-branding.hook.binary`（菜单项文案） | GRUB 配置与菜单品牌化 |
 
 **一键切换**：`tinyos-theme {dark|light|aurora|list|status}`（`/usr/local/bin/tinyos-theme`）
 
