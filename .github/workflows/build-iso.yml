@@ -53,6 +53,9 @@ jobs:
       - name: 构建 ISO（Debian 13 容器）
         timeout-minutes: 300
         run: |
+          # 确保脚本可执行：经 GitHub MCP / 网页编辑等途径修改文件会丢失 exec 位，
+          # 导致容器内 `./build.sh` 报 Permission denied（exit 126）
+          chmod +x tynos/build.sh tynos/tools/gen-assets.py tools/join-iso.sh
           mkdir -p out
           docker run --privileged --rm \
             -v "$PWD:/work" \
