@@ -1,500 +1,7 @@
+### out/ 目录
+total 8
+drwxr-xr-x 2 runner runner 4096 Oct 20 07:30 .
+drwxr-xr-x 9 runner runner 4096 Oct 20 07:30 ..
 
-Exportable Squashfs 4.0 filesystem, xz compressed, data block size 131072
-	compressed data, compressed metadata, compressed fragments,
-	compressed xattrs, compressed ids
-	duplicates are removed
-Filesystem size 3305338.27 Kbytes (3227.87 Mbytes)
-	35.28% of uncompressed filesystem size (9367759.19 Kbytes)
-Inode table size 2010826 bytes (1963.70 Kbytes)
-	23.67% of uncompressed inode table size (8497015 bytes)
-Directory table size 2247188 bytes (2194.52 Kbytes)
-	34.90% of uncompressed directory table size (6438806 bytes)
-Xattr table size 110 bytes (0.11 Kbytes)
-	68.75% of uncompressed xattr table size (160 bytes)
-Number of duplicate files found 5906
-Number of inodes 221571
-Number of files 129047
-Number of fragments 7396
-Number of symbolic links 83838
-Number of device nodes 8
-Number of fifo nodes 0
-Number of socket nodes 0
-Number of directories 8678
-Number of hard-links 7
-Number of ids (unique uids + gids) 23
-Number of uids 8
-	root (0)
-	unknown (999)
-	systemd-network (998)
-	unknown (102)
-	man (6)
-	unknown (105)
-	unknown (106)
-	unknown (101)
-Number of gids 19
-	root (0)
-	dip (30)
-	shadow (42)
-	unknown (988)
-	systemd-journal (999)
-	nogroup (65534)
-	systemd-network (998)
-	unknown (102)
-	unknown (103)
-	crontab (997)
-	unknown (104)
-	unknown (990)
-	man (12)
-	unknown (109)
-	unknown (987)
-	unknown (110)
-	adm (4)
-	utmp (43)
-	mail (8)
-Reading package lists...
-Building dependency tree...
-Reading state information...
-The following packages will be REMOVED:
-  liblzo2-2* squashfs-tools*
-0 upgraded, 0 newly installed, 2 to remove and 0 not upgraded.
-After this operation, 683 kB disk space will be freed.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 8410 files and directories currently installed.)
-Removing squashfs-tools (1:4.6.1-1) ...
-Removing liblzo2-2:amd64 (2.10-3+b1) ...
-Processing triggers for libc-bin (2.41-12+deb13u4) ...
-[2026-10-19 10:53:31] lb chroot_prep remove all mode-archives-binary
-[2026-10-19 10:53:31] lb chroot_archives binary remove
-P: Deconfiguring file /etc/apt/sources.list
-Get:1 https://deb.debian.org/debian trixie InRelease [140 kB]
-Get:2 https://deb.debian.org/debian trixie-updates InRelease [47.3 kB]
-Get:3 https://deb.debian.org/debian trixie-backports InRelease [54.0 kB]
-Get:4 https://deb.debian.org/debian trixie/non-free-firmware Sources [6552 B]
-Get:5 https://deb.debian.org/debian trixie/contrib Sources [52.4 kB]
-Get:6 https://deb.debian.org/debian trixie/main Sources [10.5 MB]
-Get:7 https://security.debian.org/debian-security trixie-security InRelease [43.4 kB]
-Get:8 https://deb.debian.org/debian trixie/non-free Sources [75.9 kB]
-Get:9 https://deb.debian.org/debian trixie/main amd64 Packages [9678 kB]
-Get:10 https://security.debian.org/debian-security trixie-security/main Sources [243 kB]
-Get:11 https://security.debian.org/debian-security trixie-security/non-free-firmware Sources [696 B]
-Get:12 https://security.debian.org/debian-security trixie-security/contrib Sources [1572 B]
-Get:13 https://security.debian.org/debian-security trixie-security/main amd64 Packages [269 kB]
-Get:14 https://deb.debian.org/debian trixie/main Translation-en [6486 kB]
-Get:15 https://security.debian.org/debian-security trixie-security/main Translation-en [166 kB]
-Get:16 https://security.debian.org/debian-security trixie-security/contrib amd64 Packages [3152 B]
-Get:17 https://security.debian.org/debian-security trixie-security/contrib Translation-en [2564 B]
-Get:18 https://security.debian.org/debian-security trixie-security/non-free-firmware amd64 Packages [544 B]
-Get:19 https://security.debian.org/debian-security trixie-security/non-free-firmware Translation-en [352 B]
-Get:20 https://deb.debian.org/debian trixie/contrib amd64 Packages [53.9 kB]
-Get:21 https://deb.debian.org/debian trixie/contrib Translation-en [49.6 kB]
-Get:22 https://deb.debian.org/debian trixie/non-free amd64 Packages [100 kB]
-Get:23 https://deb.debian.org/debian trixie/non-free Translation-en [67.1 kB]
-Get:24 https://deb.debian.org/debian trixie/non-free-firmware amd64 Packages [6884 B]
-Get:25 https://deb.debian.org/debian trixie/non-free-firmware Translation-en [4704 B]
-Get:26 https://deb.debian.org/debian trixie-updates/main Sources [1840 B]
-Get:27 https://deb.debian.org/debian trixie-updates/main amd64 Packages [4412 B]
-Get:28 https://deb.debian.org/debian trixie-updates/main Translation-en [2496 B]
-Get:29 https://deb.debian.org/debian trixie-backports/non-free Sources [1452 B]
-Get:30 https://deb.debian.org/debian trixie-backports/non-free-firmware Sources [3436 B]
-Get:31 https://deb.debian.org/debian trixie-backports/main Sources [327 kB]
-Get:32 https://deb.debian.org/debian trixie-backports/contrib Sources [7448 B]
-Get:33 https://deb.debian.org/debian trixie-backports/main amd64 Packages [289 kB]
-Get:34 https://deb.debian.org/debian trixie-backports/main Translation-en [226 kB]
-Get:35 https://deb.debian.org/debian trixie-backports/contrib amd64 Packages [7976 B]
-Get:36 https://deb.debian.org/debian trixie-backports/contrib Translation-en [7712 B]
-Get:37 https://deb.debian.org/debian trixie-backports/non-free amd64 Packages [7956 B]
-Get:38 https://deb.debian.org/debian trixie-backports/non-free Translation-en [6384 B]
-Get:39 https://deb.debian.org/debian trixie-backports/non-free-firmware amd64 Packages [6756 B]
-Get:40 https://deb.debian.org/debian trixie-backports/non-free-firmware Translation-en [4568 B]
-Fetched 29.0 MB in 30s (951 kB/s)
-Reading package lists...
-[2026-10-19 10:54:02] lb chroot_apt remove
-P: Deconfiguring file /etc/apt/apt.conf
-[2026-10-19 10:54:02] lb chroot_hostname remove
-P: Deconfiguring file /etc/hostname
-P: Deconfiguring file /bin/hostname
-[2026-10-19 10:54:02] lb chroot_resolv remove
-P: Deconfiguring file /etc/resolv.conf
-[2026-10-19 10:54:02] lb chroot_hosts remove
-P: Deconfiguring file /etc/hosts
-[2026-10-19 10:54:02] lb chroot_sysv-rc remove
-P: Deconfiguring file /usr/sbin/policy-rc.d
-[2026-10-19 10:54:02] lb chroot_tmpfs remove
-[2026-10-19 10:54:02] lb chroot_dpkg remove
-P: Deconfiguring file /sbin/start-stop-daemon
-[2026-10-19 10:54:02] lb chroot_debianchroot remove
-P: Deconfiguring file /etc/debian_chroot
-W: Skipping removal of chroot_debianchroot, it is not applied
-[2026-10-19 10:54:02] lb chroot_sysfs remove
-P: Begin unmounting /sys...
-[2026-10-19 10:54:02] lb chroot_selinuxfs remove
-[2026-10-19 10:54:02] lb chroot_proc remove
-P: Begin unmounting /proc...
-[2026-10-19 10:54:02] lb chroot_devpts remove
-P: Begin unmounting /dev/pts...
-[2026-10-19 10:54:03] lb chroot_prep install all mode-archives-binary
-[2026-10-19 10:54:03] lb chroot_devpts install
-P: Begin mounting /dev/pts...
-[2026-10-19 10:54:03] lb chroot_proc install
-P: Begin mounting /proc...
-[2026-10-19 10:54:03] lb chroot_selinuxfs install
-[2026-10-19 10:54:03] lb chroot_sysfs install
-P: Begin mounting /sys...
-[2026-10-19 10:54:03] lb chroot_debianchroot install
-P: Configuring file /etc/debian_chroot
-[2026-10-19 10:54:03] lb chroot_dpkg install
-P: Configuring file /sbin/start-stop-daemon
-dpkg-divert: warning: diverting file '/usr/sbin/start-stop-daemon' from an Essential package with rename is dangerous, use --no-rename
-[2026-10-19 10:54:03] lb chroot_tmpfs install
-[2026-10-19 10:54:03] lb chroot_sysv-rc install
-P: Configuring file /usr/sbin/policy-rc.d
-[2026-10-19 10:54:03] lb chroot_hosts install
-P: Configuring file /etc/hosts
-[2026-10-19 10:54:03] lb chroot_resolv install
-P: Configuring file /etc/resolv.conf
-[2026-10-19 10:54:03] lb chroot_hostname install
-P: Configuring file /etc/hostname
-P: Configuring file /bin/hostname
-dpkg-divert: warning: diverting file '/usr/bin/hostname' from an Essential package with rename is dangerous, use --no-rename
-[2026-10-19 10:54:04] lb chroot_apt install
-P: Configuring file /etc/apt/apt.conf
-[2026-10-19 10:54:04] lb chroot_archives binary install
-P: Configuring file /etc/apt/sources.list
-Get:1 http://security.debian.org trixie-security InRelease [43.4 kB]
-Get:2 http://security.debian.org trixie-security/contrib Sources [1572 B]
-Get:3 https://deb.debian.org/debian trixie InRelease [140 kB]
-Get:4 http://security.debian.org trixie-security/non-free-firmware Sources [696 B]
-Get:5 http://security.debian.org trixie-security/main Sources [243 kB]
-Get:6 https://deb.debian.org/debian trixie-updates InRelease [47.3 kB]
-Get:7 https://deb.debian.org/debian trixie-backports InRelease [54.0 kB]
-Get:8 http://security.debian.org trixie-security/main i386 Packages [243 kB]
-Get:9 https://deb.debian.org/debian trixie/contrib Sources [52.4 kB]
-Get:10 https://deb.debian.org/debian trixie/non-free Sources [75.9 kB]
-Get:11 http://security.debian.org trixie-security/main amd64 Packages [269 kB]
-Get:12 https://deb.debian.org/debian trixie/main Sources [10.5 MB]
-Get:13 http://security.debian.org trixie-security/main Translation-en [166 kB]
-Get:14 http://security.debian.org trixie-security/contrib amd64 Packages [3152 B]
-Get:15 http://security.debian.org trixie-security/contrib i386 Packages [3156 B]
-Get:16 http://security.debian.org trixie-security/contrib Translation-en [2564 B]
-Get:17 http://security.debian.org trixie-security/non-free-firmware amd64 Packages [544 B]
-Get:18 http://security.debian.org trixie-security/non-free-firmware i386 Packages [540 B]
-Get:19 http://security.debian.org trixie-security/non-free-firmware Translation-en [352 B]
-Get:20 https://deb.debian.org/debian trixie/non-free-firmware Sources [6552 B]
-Get:21 https://deb.debian.org/debian trixie/main i386 Packages [9437 kB]
-Get:22 https://deb.debian.org/debian trixie/main amd64 Packages [9678 kB]
-Get:23 https://deb.debian.org/debian trixie/main Translation-en [6486 kB]
-Get:24 https://deb.debian.org/debian trixie/main amd64 Components [5175 kB]
-Get:25 https://deb.debian.org/debian trixie/main Icons (48x48) [3626 kB]
-Get:26 https://deb.debian.org/debian trixie/main Icons (64x64) [7367 kB]
-Get:27 https://deb.debian.org/debian trixie/main Icons (128x128) [11.4 MB]
-Get:28 https://deb.debian.org/debian trixie/contrib i386 Packages [44.1 kB]
-Get:29 https://deb.debian.org/debian trixie/contrib amd64 Packages [53.9 kB]
-Get:30 https://deb.debian.org/debian trixie/contrib Translation-en [49.6 kB]
-Get:31 https://deb.debian.org/debian trixie/contrib amd64 Components [41.5 kB]
-Get:32 https://deb.debian.org/debian trixie/contrib Icons (48x48) [60.1 kB]
-Get:33 https://deb.debian.org/debian trixie/contrib Icons (64x64) [132 kB]
-Get:34 https://deb.debian.org/debian trixie/contrib Icons (128x128) [281 kB]
-Get:35 https://deb.debian.org/debian trixie/non-free i386 Packages [72.6 kB]
-Get:36 https://deb.debian.org/debian trixie/non-free amd64 Packages [100 kB]
-Get:37 https://deb.debian.org/debian trixie/non-free Translation-en [67.1 kB]
-Get:38 https://deb.debian.org/debian trixie/non-free amd64 Components [3784 B]
-Get:39 https://deb.debian.org/debian trixie/non-free Icons (48x48) [578 B]
-Get:40 https://deb.debian.org/debian trixie/non-free Icons (64x64) [10.4 kB]
-Get:41 https://deb.debian.org/debian trixie/non-free Icons (128x128) [2167 B]
-Get:42 https://deb.debian.org/debian trixie/non-free-firmware amd64 Packages [6884 B]
-Get:43 https://deb.debian.org/debian trixie/non-free-firmware i386 Packages [6548 B]
-Get:44 https://deb.debian.org/debian trixie/non-free-firmware Translation-en [4704 B]
-Get:45 https://deb.debian.org/debian trixie/non-free-firmware amd64 Components [24.3 kB]
-Get:46 https://deb.debian.org/debian trixie/non-free-firmware Icons (48x48) [29 B]
-Get:47 https://deb.debian.org/debian trixie/non-free-firmware Icons (64x64) [29 B]
-Get:48 https://deb.debian.org/debian trixie/non-free-firmware Icons (128x128) [29 B]
-Get:49 https://deb.debian.org/debian trixie-updates/main Sources [1840 B]
-Get:50 https://deb.debian.org/debian trixie-updates/main i386 Packages [4412 B]
-Get:51 https://deb.debian.org/debian trixie-updates/main amd64 Packages [4412 B]
-Get:52 https://deb.debian.org/debian trixie-updates/main Translation-en [2496 B]
-Get:53 https://deb.debian.org/debian trixie-backports/main Sources [327 kB]
-Get:54 https://deb.debian.org/debian trixie-backports/contrib Sources [7448 B]
-Get:55 https://deb.debian.org/debian trixie-backports/non-free-firmware Sources [3436 B]
-Get:56 https://deb.debian.org/debian trixie-backports/non-free Sources [1452 B]
-Get:57 https://deb.debian.org/debian trixie-backports/main i386 Packages [264 kB]
-Get:58 https://deb.debian.org/debian trixie-backports/main amd64 Packages [289 kB]
-Get:59 https://deb.debian.org/debian trixie-backports/main Translation-en [226 kB]
-Get:60 https://deb.debian.org/debian trixie-backports/contrib amd64 Packages [7976 B]
-Get:61 https://deb.debian.org/debian trixie-backports/contrib i386 Packages [6392 B]
-Get:62 https://deb.debian.org/debian trixie-backports/contrib Translation-en [7712 B]
-Get:63 https://deb.debian.org/debian trixie-backports/non-free amd64 Packages [7956 B]
-Get:64 https://deb.debian.org/debian trixie-backports/non-free i386 Packages [5508 B]
-Get:65 https://deb.debian.org/debian trixie-backports/non-free Translation-en [6384 B]
-Get:66 https://deb.debian.org/debian trixie-backports/non-free-firmware amd64 Packages [6756 B]
-Get:67 https://deb.debian.org/debian trixie-backports/non-free-firmware i386 Packages [6568 B]
-Get:68 https://deb.debian.org/debian trixie-backports/non-free-firmware Translation-en [4568 B]
-Fetched 67.2 MB in 21s (3186 kB/s)
-Reading package lists...
-Reading package lists...
-Building dependency tree...
-Reading state information...
-debian-archive-keyring is already the newest version (2025.1).
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-Hit:1 https://deb.debian.org/debian trixie InRelease
-Hit:2 http://security.debian.org trixie-security InRelease
-Hit:3 https://deb.debian.org/debian trixie-updates InRelease
-Hit:4 https://deb.debian.org/debian trixie-backports InRelease
-Reading package lists...
-Reading package lists...
-Building dependency tree...
-Reading state information...
-Calculating upgrade...
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-Calculating upgrade...
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-Reading package lists...
-Building dependency tree...
-Reading state information...
-[2026-10-19 10:54:34] lb binary_dm-verity 
-[2026-10-19 10:54:34] lb binary_manifest 
-P: Begin creating manifest...
-[2026-10-19 10:54:34] lb binary_package-lists 
-P: Begin installing local package lists...
-[2026-10-19 10:54:34] lb binary_linux-image 
-P: Begin install linux-image...
-[2026-10-19 10:54:34] lb binary_memtest 
-[2026-10-19 10:54:34] lb binary_grub-legacy 
-[2026-10-19 10:54:34] lb binary_grub-pc 
-[2026-10-19 10:54:34] lb binary_grub_cfg 
-P: Begin installing config for grub-pc and/or grub-efi, and loopback support...
-[2026-10-19 10:54:34] lb binary_syslinux 
-P: Begin installing syslinux...
-Reading package lists...
-Building dependency tree...
-Reading state information...
-Suggested packages:
-  xorriso
-The following NEW packages will be installed:
-  isolinux syslinux-common
-0 upgraded, 2 newly installed, 0 to remove and 0 not upgraded.
-Need to get 1299 kB of archives.
-After this operation, 3741 kB of additional disk space will be used.
-Get:1 https://deb.debian.org/debian trixie/main amd64 isolinux all 3:6.04~git20190206.bf6db5b4+dfsg1-3.1 [86.5 kB]
-Get:2 https://deb.debian.org/debian trixie/main amd64 syslinux-common all 3:6.04~git20190206.bf6db5b4+dfsg1-3.1 [1212 kB]
-Fetched 1299 kB in 0s (9731 kB/s)
-Selecting previously unselected package isolinux.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 259896 files and directories currently installed.)
-Preparing to unpack .../isolinux_3%3a6.04~git20190206.bf6db5b4+dfsg1-3.1_all.deb ...
-Unpacking isolinux (3:6.04~git20190206.bf6db5b4+dfsg1-3.1) ...
-Selecting previously unselected package syslinux-common.
-Preparing to unpack .../syslinux-common_3%3a6.04~git20190206.bf6db5b4+dfsg1-3.1_all.deb ...
-Unpacking syslinux-common (3:6.04~git20190206.bf6db5b4+dfsg1-3.1) ...
-Setting up isolinux (3:6.04~git20190206.bf6db5b4+dfsg1-3.1) ...
-Setting up syslinux-common (3:6.04~git20190206.bf6db5b4+dfsg1-3.1) ...
-Reading package lists...
-Building dependency tree...
-Reading state information...
-Reading package lists...
-Building dependency tree...
-Reading state information...
-The following packages will be REMOVED:
-  isolinux* syslinux-common*
-0 upgraded, 0 newly installed, 2 to remove and 0 not upgraded.
-After this operation, 3741 kB disk space will be freed.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 260128 files and directories currently installed.)
-Removing isolinux (3:6.04~git20190206.bf6db5b4+dfsg1-3.1) ...
-Removing syslinux-common (3:6.04~git20190206.bf6db5b4+dfsg1-3.1) ...
-[2026-10-19 10:54:39] lb binary_disk 
-P: Begin installing disk information...
-[2026-10-19 10:54:39] lb binary_loadlin 
-[2026-10-19 10:54:39] lb binary_win32-loader 
-[2026-10-19 10:54:39] lb binary_includes 
-P: Begin copying binary includes...
-1 block
-[2026-10-19 10:54:39] lb binary_grub-efi 
-P: Begin preparing Grub based EFI support...
-Reading package lists...
-Building dependency tree...
-Reading state information...
-The following additional packages will be installed:
-  grub-efi-amd64-unsigned grub-efi-ia32-unsigned libefiboot1t64 libefivar1t64
-Suggested packages:
-  multiboot-doc grub-emu xorriso desktop-base console-setup floppyd
-Recommended packages:
-  os-prober grub-efi-amd64-signed efibootmgr
-The following NEW packages will be installed:
-  grub-common grub-efi-amd64-bin grub-efi-amd64-unsigned grub-efi-ia32-bin
-  grub-efi-ia32-unsigned libefiboot1t64 libefivar1t64 mtools
-0 upgraded, 8 newly installed, 0 to remove and 0 not upgraded.
-Need to get 7630 kB of archives.
-After this operation, 42.0 MB of additional disk space will be used.
-Get:1 https://deb.debian.org/debian trixie/main amd64 libefivar1t64 amd64 38-3.1+b1 [58.5 kB]
-Get:2 https://deb.debian.org/debian trixie/main amd64 libefiboot1t64 amd64 38-3.1+b1 [43.9 kB]
-Get:3 https://deb.debian.org/debian trixie/main amd64 grub-common amd64 2.12-9+deb13u2 [2899 kB]
-Get:4 https://deb.debian.org/debian trixie/main amd64 grub-efi-amd64-unsigned amd64 2.12-9+deb13u2 [1362 kB]
-Get:5 https://deb.debian.org/debian trixie/main amd64 grub-efi-amd64-bin amd64 2.12-9+deb13u2 [1053 kB]
-Get:6 https://deb.debian.org/debian trixie/main amd64 grub-efi-ia32-unsigned amd64 2.12-9+deb13u2 [1324 kB]
-Get:7 https://deb.debian.org/debian trixie/main amd64 grub-efi-ia32-bin amd64 2.12-9+deb13u2 [691 kB]
-Get:8 https://deb.debian.org/debian trixie/main amd64 mtools amd64 4.0.48-1 [198 kB]
-Fetched 7630 kB in 0s (29.2 MB/s)
-Selecting previously unselected package libefivar1t64:amd64.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 259895 files and directories currently installed.)
-Preparing to unpack .../0-libefivar1t64_38-3.1+b1_amd64.deb ...
-Unpacking libefivar1t64:amd64 (38-3.1+b1) ...
-Selecting previously unselected package libefiboot1t64:amd64.
-Preparing to unpack .../1-libefiboot1t64_38-3.1+b1_amd64.deb ...
-Unpacking libefiboot1t64:amd64 (38-3.1+b1) ...
-Selecting previously unselected package grub-common.
-Preparing to unpack .../2-grub-common_2.12-9+deb13u2_amd64.deb ...
-Unpacking grub-common (2.12-9+deb13u2) ...
-Selecting previously unselected package grub-efi-amd64-unsigned.
-Preparing to unpack .../3-grub-efi-amd64-unsigned_2.12-9+deb13u2_amd64.deb ...
-Unpacking grub-efi-amd64-unsigned (2.12-9+deb13u2) ...
-Selecting previously unselected package grub-efi-amd64-bin.
-Preparing to unpack .../4-grub-efi-amd64-bin_2.12-9+deb13u2_amd64.deb ...
-Unpacking grub-efi-amd64-bin (2.12-9+deb13u2) ...
-Selecting previously unselected package grub-efi-ia32-unsigned.
-Preparing to unpack .../5-grub-efi-ia32-unsigned_2.12-9+deb13u2_amd64.deb ...
-Unpacking grub-efi-ia32-unsigned (2.12-9+deb13u2) ...
-Selecting previously unselected package grub-efi-ia32-bin.
-Preparing to unpack .../6-grub-efi-ia32-bin_2.12-9+deb13u2_amd64.deb ...
-Unpacking grub-efi-ia32-bin (2.12-9+deb13u2) ...
-Selecting previously unselected package mtools.
-Preparing to unpack .../7-mtools_4.0.48-1_amd64.deb ...
-Unpacking mtools (4.0.48-1) ...
-Setting up mtools (4.0.48-1) ...
-Setting up libefivar1t64:amd64 (38-3.1+b1) ...
-Setting up libefiboot1t64:amd64 (38-3.1+b1) ...
-Setting up grub-common (2.12-9+deb13u2) ...
-Created symlink '/etc/systemd/system/multi-user.target.wants/grub-common.service' → '/usr/lib/systemd/system/grub-common.service'.
-Created symlink '/etc/systemd/system/suspend.target.wants/grub-common.service' → '/usr/lib/systemd/system/grub-common.service'.
-Created symlink '/etc/systemd/system/hibernate.target.wants/grub-common.service' → '/usr/lib/systemd/system/grub-common.service'.
-Created symlink '/etc/systemd/system/hybrid-sleep.target.wants/grub-common.service' → '/usr/lib/systemd/system/grub-common.service'.
-Created symlink '/etc/systemd/system/suspend-then-hibernate.target.wants/grub-common.service' → '/usr/lib/systemd/system/grub-common.service'.
-Setting up grub-efi-amd64-unsigned (2.12-9+deb13u2) ...
-Setting up grub-efi-ia32-unsigned (2.12-9+deb13u2) ...
-Setting up grub-efi-ia32-bin (2.12-9+deb13u2) ...
-Setting up grub-efi-amd64-bin (2.12-9+deb13u2) ...
-Processing triggers for man-db (2.13.1-1) ...
-Processing triggers for install-info (7.1.1-1+b1) ...
-Processing triggers for libc-bin (2.41-12+deb13u4) ...
-!!! The following error/warning messages can be ignored !!!
-Reading package lists...
-Building dependency tree...
-Reading state information...
-The following additional packages will be installed:
-  grub2-common mokutil shim-helpers-amd64-signed shim-signed-common
-  shim-unsigned
-The following NEW packages will be installed:
-  grub2-common mokutil shim-helpers-amd64-signed shim-signed
-  shim-signed-common shim-unsigned
-0 upgraded, 6 newly installed, 0 to remove and 0 not upgraded.
-Need to get 1785 kB of archives.
-After this operation, 5695 kB of additional disk space will be used.
-Get:1 https://deb.debian.org/debian trixie/main amd64 mokutil amd64 0.7.2-1 [26.7 kB]
-Get:2 https://deb.debian.org/debian trixie/main amd64 shim-signed-common all 1.51~1+deb13u1+16.1-2~deb13u1 [15.9 kB]
-Get:3 https://deb.debian.org/debian trixie/main amd64 shim-unsigned amd64 16.1-2~deb13u1 [453 kB]
-Get:4 https://deb.debian.org/debian trixie/main amd64 shim-helpers-amd64-signed amd64 1+16.1+2~deb13u1 [301 kB]
-Get:5 https://deb.debian.org/debian trixie/main amd64 grub2-common amd64 2.12-9+deb13u2 [641 kB]
-Get:6 https://deb.debian.org/debian trixie/main amd64 shim-signed amd64 1.51~1+deb13u1+16.1-2~deb13u1 [347 kB]
-Preconfiguring packages ...
-Fetched 1785 kB in 0s (10.4 MB/s)
-Selecting previously unselected package mokutil.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 260732 files and directories currently installed.)
-Preparing to unpack .../0-mokutil_0.7.2-1_amd64.deb ...
-Unpacking mokutil (0.7.2-1) ...
-Selecting previously unselected package shim-signed-common.
-Preparing to unpack .../1-shim-signed-common_1.51~1+deb13u1+16.1-2~deb13u1_all.deb ...
-Unpacking shim-signed-common (1.51~1+deb13u1+16.1-2~deb13u1) ...
-Selecting previously unselected package shim-unsigned:amd64.
-Preparing to unpack .../2-shim-unsigned_16.1-2~deb13u1_amd64.deb ...
-Unpacking shim-unsigned:amd64 (16.1-2~deb13u1) ...
-Selecting previously unselected package shim-helpers-amd64-signed.
-Preparing to unpack .../3-shim-helpers-amd64-signed_1+16.1+2~deb13u1_amd64.deb ...
-Unpacking shim-helpers-amd64-signed (1+16.1+2~deb13u1) ...
-Selecting previously unselected package grub2-common.
-Preparing to unpack .../4-grub2-common_2.12-9+deb13u2_amd64.deb ...
-Unpacking grub2-common (2.12-9+deb13u2) ...
-Selecting previously unselected package shim-signed:amd64.
-Preparing to unpack .../5-shim-signed_1.51~1+deb13u1+16.1-2~deb13u1_amd64.deb ...
-shim-signed: checking if we can safely install /usr/lib/shim/shimx64.efi.signed
-  EFI variables are not supported on this system; assuming shim installation is safe.
-Unpacking shim-signed:amd64 (1.51~1+deb13u1+16.1-2~deb13u1) ...
-Setting up mokutil (0.7.2-1) ...
-Setting up grub2-common (2.12-9+deb13u2) ...
-Setting up shim-signed-common (1.51~1+deb13u1+16.1-2~deb13u1) ...
-No DKMS packages installed: not changing Secure Boot validation state.
-Setting up shim-unsigned:amd64 (16.1-2~deb13u1) ...
-Setting up shim-helpers-amd64-signed (1+16.1+2~deb13u1) ...
-Setting up shim-signed:amd64 (1.51~1+deb13u1+16.1-2~deb13u1) ...
-No DKMS packages installed: not changing Secure Boot validation state.
-Processing triggers for man-db (2.13.1-1) ...
-Processing triggers for install-info (7.1.1-1+b1) ...
-Reading package lists...
-Building dependency tree...
-Reading state information...
-The following NEW packages will be installed:
-  grub-efi-amd64-signed
-0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.
-Need to get 1363 kB of archives.
-After this operation, 9720 kB of additional disk space will be used.
-Get:1 https://deb.debian.org/debian trixie/main amd64 grub-efi-amd64-signed amd64 1+2.12+9+deb13u2 [1363 kB]
-Fetched 1363 kB in 0s (7976 kB/s)
-Selecting previously unselected package grub-efi-amd64-signed.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 260788 files and directories currently installed.)
-Preparing to unpack .../grub-efi-amd64-signed_1+2.12+9+deb13u2_amd64.deb ...
-Unpacking grub-efi-amd64-signed (1+2.12+9+deb13u2) ...
-Setting up grub-efi-amd64-signed (1+2.12+9+deb13u2) ...
-!!! The above error/warning messages can be ignored !!!
-P: UEFI Secure Boot support enabled.
-mkfs.fat 4.2 (2021-01-31)
-Reading package lists...
-Building dependency tree...
-Reading state information...
-Reading package lists...
-Building dependency tree...
-Reading state information...
-The following packages will be REMOVED:
-  grub-common* grub-efi-amd64-bin* grub-efi-amd64-signed*
-  grub-efi-amd64-unsigned* grub-efi-ia32-bin* grub-efi-ia32-unsigned*
-  grub2-common* libefiboot1t64* libefivar1t64* mokutil* mtools*
-  shim-helpers-amd64-signed* shim-signed* shim-signed-common* shim-unsigned*
-WARNING: The following essential packages will be removed.
-This should NOT be done unless you know exactly what you are doing!
-  grub-efi-amd64-signed grub-common (due to grub-efi-amd64-signed)
-0 upgraded, 0 newly installed, 15 to remove and 0 not upgraded.
-After this operation, 57.4 MB disk space will be freed.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 260798 files and directories currently installed.)
-Removing shim-signed:amd64 (1.51~1+deb13u1+16.1-2~deb13u1) ...
-No DKMS packages installed: not changing Secure Boot validation state.
-Removing grub2-common (2.12-9+deb13u2) ...
-Removing grub-efi-ia32-bin (2.12-9+deb13u2) ...
-Removing grub-efi-ia32-unsigned (2.12-9+deb13u2) ...
-Removing grub-efi-amd64-bin (2.12-9+deb13u2) ...
-dpkg: warning: overriding problem because --force enabled:
-dpkg: warning: this is a protected package; it should not be removed
-Removing grub-efi-amd64-signed (1+2.12+9+deb13u2) ...
-Removing grub-efi-amd64-unsigned (2.12-9+deb13u2) ...
-Removing shim-signed-common (1.51~1+deb13u1+16.1-2~deb13u1) ...
-Removing mokutil (0.7.2-1) ...
-Removing mtools (4.0.48-1) ...
-Removing shim-helpers-amd64-signed (1+16.1+2~deb13u1) ...
-Removing shim-unsigned:amd64 (16.1-2~deb13u1) ...
-Removing grub-common (2.12-9+deb13u2) ...
-Removing libefiboot1t64:amd64 (38-3.1+b1) ...
-Removing libefivar1t64:amd64 (38-3.1+b1) ...
-Processing triggers for man-db (2.13.1-1) ...
-Processing triggers for install-info (7.1.1-1+b1) ...
-Not a directory: /usr/share/info.
-dpkg: error processing package install-info (--configure):
- installed install-info package post-installation script subprocess returned error exit status 1
-Processing triggers for libc-bin (2.41-12+deb13u4) ...
-Errors were encountered while processing:
- install-info
-E: Sub-process /usr/bin/dpkg returned an error code (1)
-E: An unexpected failure occurred, exiting...
-P: Begin unmounting filesystems...
-P: Saving caches...
-Reading package lists...
-Building dependency tree...
-Reading state information...
+### out/build.log 尾部 200 行
+(无 out/build.log —— build.sh 可能未执行)
