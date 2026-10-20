@@ -1,0 +1,19 @@
+#!/bin/sh
+# TinyOS binary 阶段钩子：GRUB 菜单项品牌化
+#
+# 重要：live-build 只在 config/hooks/{normal,live}/ 下查找 *.binary 钩子
+# （config/hooks/binary/ 不会被扫描）。执行时工作目录是 binary 暂存树，
+# 因此这里必须使用相对路径；绝对路径会指向构建主机根目录。
+set -e
+
+echo "[TinyOS] GRUB 菜单品牌化"
+
+CFG="boot/grub/grub.cfg"
+[ -f "${CFG}" ] || { echo "[TinyOS] 未找到 ${CFG}，跳过"; exit 0; }
+
+# 菜单项文案品牌化（菜单标签由 live-build 硬编码，只能用 sed 改）
+sed -i 's/menuentry "Live system (amd64 fail-safe mode)"/menuentry "TinyOS 1.0 (安全模式)"/' "${CFG}"
+sed -i 's/menuentry "Live system (amd64)"/menuentry "TinyOS 1.0 (Live)"/' "${CFG}"
+sed -i 's/menuentry "Live system (/menuentry "TinyOS 1.0 (/' "${CFG}"
+
+echo "[TinyOS] GRUB 菜单品牌化完成"

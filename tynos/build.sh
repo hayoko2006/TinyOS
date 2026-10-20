@@ -89,6 +89,18 @@ if [ "${need_assets}" = "1" ]; then
     chmod 644 "${BUILD_DIR}/config/includes.chroot/usr/share/plymouth/themes/tinyos/"*.png 2>/dev/null || true
 fi
 
+# GRUB 菜单背景取自深色壁纸。壁纸位于 includes.chroot（进 squashfs），
+# 而 GRUB 主题在 includes.binary（ISO 文件系统层），故此处复制一份。
+GRUB_THEME_DIR="${BUILD_DIR}/config/includes.binary/boot/grub/themes/tinyos"
+if [ -d "${GRUB_THEME_DIR}" ]; then
+    DARK_WALLPAPER="${BUILD_DIR}/config/includes.chroot/usr/share/wallpapers/TinyOS-Dark/contents/images/1920x1080.png"
+    if [ -f "${DARK_WALLPAPER}" ]; then
+        cp -f "${DARK_WALLPAPER}" "${GRUB_THEME_DIR}/background.png"
+        chmod 644 "${GRUB_THEME_DIR}/background.png"
+        log "    已生成 GRUB 主题背景"
+    fi
+fi
+
 # ----------------------------------------------------------------------------
 log "3/7 lb config（发行版: ${DIST} ${ARCH}，口味: ${EDITION}，构建源: ${MIRROR_CHROOT}）"
 cd "${BUILD_DIR}"
@@ -98,6 +110,7 @@ lb config noauto \
     --architecture "${ARCH}" \
     --archive-areas "main contrib non-free non-free-firmware" \
     --binary-image iso-hybrid \
+    --bootloaders "grub-pc grub-efi" \
     --apt-indices false \
     --apt-recommends true \
     --backports true \
