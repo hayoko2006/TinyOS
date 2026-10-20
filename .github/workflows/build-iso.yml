@@ -180,6 +180,14 @@ jobs:
         run: |
           mkdir -p docs/evidence
           cp -f evidence/*.png evidence/*.log evidence/*.txt docs/evidence/ 2>/dev/null || true
+          # 无论失败在哪一步，都归档构建日志尾部与产物清单，便于无凭据排错
+          {
+            echo "### out/ 目录"
+            ls -la out/ 2>/dev/null || echo "(out 不存在)"
+            echo ""
+            echo "### out/build.log 尾部 200 行"
+            tail -n 200 out/build.log 2>/dev/null || echo "(无 out/build.log —— build.sh 可能未执行)"
+          } > docs/evidence/build-tail.log
           grep -E 'usr/local/bin/|usr/share/plasma/look-and-feel/com\.tinyos|usr/share/plymouth/themes/tinyos|var/lib/waydroid/images|usr/share/wallpapers/TinyOS|usr/share/tinyos/' sq.list 2>/dev/null \
             | head -80 > docs/evidence/squashfs-keyfiles.txt || true
           ls -lh docs/evidence/ || true
